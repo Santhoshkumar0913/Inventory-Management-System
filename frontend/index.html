@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Inventory Login</title>
+
+<link rel="stylesheet"
+href="css/style.css">
+
+<style>
+
+body{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+height:100vh;
+
+background:#2563eb;
+
+}
+
+.login{
+
+background:white;
+
+padding:40px;
+
+border-radius:10px;
+
+width:350px;
+
+box-shadow:0 10px 20px rgba(0,0,0,.2);
+
+}
+
+h2{
+
+text-align:center;
+
+margin-bottom:25px;
+
+}
+
+button{
+
+width:100%;
+
+background:#2563eb;
+
+color:white;
+
+padding:12px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login">
+
+<h2>Inventory Login</h2>
+
+<input
+type="text"
+placeholder="Username"
+id="username">
+
+<input
+type="password"
+placeholder="Password"
+id="password">
+
+<button onclick="login()">
+
+Login
+
+</button>
+
+</div>
+
+<script>
+
+function login(){
+
+location.href="dashboard.html";
+
+}
+
+</script>
+
+</body>
+
+</html>
