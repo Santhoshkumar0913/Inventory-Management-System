@@ -1,89 +1,165 @@
-// ================================
-// Dashboard Chart
-// frontend/js/dashboard.js
-// ================================
+// ==========================================
+// Dashboard
+// ==========================================
 
-const ctx = document.getElementById("inventoryChart");
+let dashboard = {};
 
-if (ctx) {
+// ==========================================
+// Load Dashboard
+// ==========================================
 
-    new Chart(ctx, {
+async function loadDashboard() {
 
-        type: "bar",
+    try {
 
-        data: {
+        dashboard = await apiGet("dashboard");
 
-            labels: [
-                "Laptops",
-                "Monitors",
-                "Mouse",
-                "Keyboard",
-                "SSD",
-                "Router"
-            ],
+        updateCards();
 
-            datasets: [{
+        renderRecentProducts();
 
-                label: "Available Stock",
+        renderReorderAlerts();
 
-                data: [
-                    120,
-                    80,
-                    40,
-                    35,
-                    60,
-                    25
-                ],
+    }
 
-                backgroundColor: [
-                    "#2563eb",
-                    "#16a34a",
-                    "#f59e0b",
-                    "#dc2626",
-                    "#8b5cf6",
-                    "#06b6d4"
-                ],
+    catch (error) {
 
-                borderRadius: 8
+        console.error(error);
 
-            }]
+        alert("Unable to load dashboard.");
 
-        },
+    }
 
-        options: {
+}
 
-            responsive: true,
+// ==========================================
+// Cards
+// ==========================================
 
-            maintainAspectRatio: false,
+function updateCards() {
 
-            plugins: {
+    document.getElementById("totalProducts").innerText =
+        dashboard.totalProducts;
 
-                legend: {
+    document.getElementById("lowStock").innerText =
+        dashboard.lowStock;
 
-                    display: false
+    document.getElementById("totalOrders").innerText =
+        dashboard.totalOrders;
 
-                }
+    document.getElementById("totalReturns").innerText =
+        dashboard.totalReturns;
 
-            },
+    const value =
+        dashboard.inventoryValue.toLocaleString();
 
-            scales: {
+    document.getElementById("inventoryValue").innerText =
+        "$" + value;
 
-                y: {
+    document.getElementById("forecast").innerText =
+        dashboard.demandForecast;
 
-                    beginAtZero: true,
+}
 
-                    ticks: {
+// ==========================================
+// Recent Products
+// ==========================================
 
-                        stepSize: 20
+function renderRecentProducts() {
 
-                    }
+    const tbody =
+        document.getElementById("dashboardTable");
 
-                }
+    tbody.innerHTML = "";
 
-            }
+    dashboard.recentProducts.forEach(product => {
 
-        }
+        const css =
+            product.stock <= product.minimumStock
+                ? "pending"
+                : "completed";
+
+        const status =
+            product.stock <= product.minimumStock
+                ? "Low Stock"
+                : "Available";
+
+        tbody.innerHTML += `
+
+<tr>
+
+<td>${product.id}</td>
+
+<td>${product.name}</td>
+
+<td>${product.category}</td>
+
+<td>${product.stock}</td>
+
+<td>
+
+<span class="${css}">
+
+${status}
+
+</span>
+
+</td>
+
+</tr>
+
+`;
 
     });
 
 }
+
+// ==========================================
+// Reorder Alerts
+// ==========================================
+
+function renderReorderAlerts() {
+
+    const table =
+        document.getElementById("reorderTable");
+
+    if (!table)
+        return;
+
+    table.innerHTML = "";
+
+    dashboard.reorderProducts.forEach(product => {
+
+        table.innerHTML += `
+
+<tr>
+
+<td>${product.id}</td>
+
+<td>${product.name}</td>
+
+<td>${product.stock}</td>
+
+<td>${product.minimumStock}</td>
+
+<td>
+
+<span class="pending">
+
+Reorder Required
+
+</span>
+
+</td>
+
+</tr>
+
+`;
+
+    });
+
+}
+
+// ==========================================
+
+loadDashboard();

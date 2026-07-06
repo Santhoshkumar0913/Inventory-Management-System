@@ -1,179 +1,337 @@
-// =======================================
+// ==========================================
 // Inventory Management
-// frontend/js/inventory.js
-// =======================================
+// ==========================================
 
-const searchInput = document.getElementById("searchProduct");
-const tableBody = document.getElementById("productTable");
+let products = [];
+let editMode = false;
+let editProductId = null;
 
-let products = [
+// ==========================================
+// Load Products
+// ==========================================
 
-    {
-        id: "P001",
-        name: "Dell Laptop",
-        category: "Laptop",
-        price: 800,
-        stock: 15
-    },
+async function loadProducts() {
 
-    {
-        id: "P002",
-        name: "Wireless Mouse",
-        category: "Accessories",
-        price: 25,
-        stock: 6
-    },
+    try {
 
-    {
-        id: "P003",
-        name: "Router",
-        category: "Networking",
-        price: 95,
-        stock: 18
+        products = await apiGet("products");
+
+        renderProducts(products);
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Unable to load products.");
+
     }
 
-];
+}
 
-function renderProducts(data){
+// ==========================================
+// Render Products
+// ==========================================
 
-    tableBody.innerHTML = "";
+function renderProducts(productList) {
 
-    data.forEach(product=>{
+    const tbody = document.getElementById("inventoryTableBody");
+
+    tbody.innerHTML = "";
+
+    productList.forEach(product => {
 
         const status =
-            product.stock <= 10
-            ? "Low Stock"
-            : "Available";
+            product.stock <= product.minimumStock
+                ? "Low Stock"
+                : "Available";
 
-        const badge =
-            product.stock <= 10
-            ? "pending"
-            : "completed";
+        const statusClass =
+            product.stock <= product.minimumStock
+                ? "pending"
+                : "completed";
 
-        tableBody.innerHTML += `
+        tbody.innerHTML += `
 
-        <tr>
+<tr>
 
-            <td>${product.id}</td>
+<td>${product.id}</td>
 
-            <td>${product.name}</td>
+<td>${product.name}</td>
 
-            <td>${product.category}</td>
+<td>${product.category}</td>
 
-            <td>$${product.price}</td>
+<td>$${product.price}</td>
 
-            <td>${product.stock}</td>
+<td>${product.stock}</td>
 
-            <td>
+<td>
 
-                <span class="${badge}">
+<span class="${statusClass}">
 
-                    ${status}
+${status}
 
-                </span>
+</span>
 
-            </td>
+</td>
 
-            <td>
+<td>
 
-                <button
-                    class="btn btn-primary"
-                    onclick="editProduct('${product.id}')">
+<button
+class="btn btn-primary"
+onclick="editProduct('${product.id}')">
 
-                    Edit
+Edit
 
-                </button>
+</button>
 
-                <button
-                    class="btn btn-danger"
-                    onclick="deleteProduct('${product.id}')">
+<button
+class="btn btn-danger"
+onclick="deleteProduct('${product.id}')">
 
-                    Delete
+Delete
 
-                </button>
+</button>
 
-            </td>
+</td>
 
-        </tr>
+</tr>
 
-        `;
+`;
 
     });
 
 }
 
-renderProducts(products);
-
-// =========================
+// ==========================================
 // Search
-// =========================
+// ==========================================
 
-searchInput.addEventListener("keyup",()=>{
+function searchProducts() {
 
     const keyword =
-        searchInput.value.toLowerCase();
+        document
+            .getElementById("searchInput")
+            .value
+            .toLowerCase();
 
     const filtered =
-        products.filter(product=>
+        products.filter(product =>
 
             product.name
-            .toLowerCase()
-            .includes(keyword)
+                .toLowerCase()
+                .includes(keyword)
 
             ||
 
             product.category
-            .toLowerCase()
-            .includes(keyword)
+                .toLowerCase()
+                .includes(keyword)
 
         );
 
     renderProducts(filtered);
 
-});
+}
 
-// =========================
-// Delete
-// =========================
+// ==========================================
+// Modal
+// ==========================================
 
-function deleteProduct(id){
+function openProductModal() {
 
-    if(confirm("Delete Product ?")){
+    editMode = false;
 
-        products =
-            products.filter(p=>p.id!==id);
+    editProductId = null;
 
-        renderProducts(products);
+    document.getElementById("productForm").reset();
+
+    document.getElementById("modalTitle").innerHTML =
+        "Add Product";
+
+    document.getElementById("productModal").style.display =
+        "flex";
+
+}
+
+function closeProductModal() {
+
+    document.getElementById("productModal").style.display =
+        "none";
+
+}
+
+// ==========================================
+// Save Product
+// ==========================================
+
+async function saveProduct() {
+
+    const product = {
+
+        id:
+            document
+                .getElementById("productId")
+                .value,
+
+        name:
+            document
+                .getElementById("productName")
+                .value,
+
+        category:
+            document
+                .getElementById("category")
+                .value,
+
+        price:
+            Number(
+                document
+                    .getElementById("price")
+                    .value
+            ),
+
+        stock:
+            Number(
+                document
+                    .getElementById("stock")
+                    .value
+            ),
+
+        minimumStock:
+            Number(
+                document
+                    .getElementById("minimumStock")
+                    .value
+            ),
+
+        supplier:
+            document
+                .getElementById("supplier")
+                .value
+
+    };
+        try {
+
+        if (editMode) {
+
+            await apiPut(
+                `products/${editProductId}`,
+                product
+            );
+
+        } else {
+
+            await apiPost(
+                "products",
+                product
+            );
+
+        }
+
+        closeProductModal();
+
+        await loadProducts();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert("Unable to save product.");
 
     }
 
 }
 
-// =========================
-// Edit
-// =========================
+// ==========================================
+// Edit Product
+// ==========================================
 
-function editProduct(id){
+function editProduct(id) {
 
     const product =
-        products.find(p=>p.id===id);
+        products.find(p => p.id === id);
 
-    alert(
+    if (!product) return;
 
-`Product
+    editMode = true;
 
-ID : ${product.id}
+    editProductId = id;
 
-Name : ${product.name}
+    document.getElementById("modalTitle").innerHTML =
+        "Edit Product";
 
-Category : ${product.category}
+    document.getElementById("productId").value =
+        product.id;
 
-Price : $${product.price}
+    document.getElementById("productName").value =
+        product.name;
 
-Stock : ${product.stock}
+    document.getElementById("category").value =
+        product.category;
 
-(We'll replace this alert with an Edit Modal later.)`
+    document.getElementById("price").value =
+        product.price;
 
-    );
+    document.getElementById("stock").value =
+        product.stock;
+
+    document.getElementById("minimumStock").value =
+        product.minimumStock;
+
+    document.getElementById("supplier").value =
+        product.supplier;
+
+    document.getElementById("productModal").style.display =
+        "flex";
 
 }
+
+// ==========================================
+// Delete Product
+// ==========================================
+
+async function deleteProduct(id) {
+
+    if (!confirm("Delete this product?"))
+        return;
+
+    try {
+
+        await apiDelete(
+            `products/${id}`
+        );
+
+        await loadProducts();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert("Unable to delete product.");
+
+    }
+
+}
+
+// ==========================================
+// Initialize
+// ==========================================
+
+window.onclick = function (event) {
+
+    const modal =
+        document.getElementById("productModal");
+
+    if (event.target === modal) {
+
+        closeProductModal();
+
+    }
+
+};
+
+loadProducts();

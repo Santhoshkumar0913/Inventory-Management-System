@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/forms.css">
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
@@ -35,51 +36,33 @@
         <ul>
 
             <li onclick="location.href='dashboard.html'">
-
                 <i class="fa-solid fa-house"></i>
-
                 <span>Dashboard</span>
-
             </li>
 
             <li class="active">
-
                 <i class="fa-solid fa-box"></i>
-
                 <span>Inventory</span>
-
             </li>
 
             <li onclick="location.href='orders.html'">
-
                 <i class="fa-solid fa-cart-shopping"></i>
-
                 <span>Orders</span>
-
             </li>
 
             <li onclick="location.href='returns.html'">
-
                 <i class="fa-solid fa-rotate-left"></i>
-
                 <span>Returns</span>
-
             </li>
 
             <li onclick="location.href='users.html'">
-
                 <i class="fa-solid fa-users"></i>
-
                 <span>Users</span>
-
             </li>
 
             <li onclick="location.href='reports.html'">
-
-                <i class="fa-solid fa-file-lines"></i>
-
+                <i class="fa-solid fa-chart-column"></i>
                 <span>Reports</span>
-
             </li>
 
         </ul>
@@ -92,9 +75,11 @@
 
         <header class="topbar">
 
-            <h2>Inventory</h2>
+            <h2>Inventory Management</h2>
 
-            <button class="btn btn-primary">
+            <button
+                class="btn btn-primary"
+                onclick="openProductModal()">
 
                 <i class="fa-solid fa-plus"></i>
 
@@ -106,25 +91,21 @@
 
         <!-- Search -->
 
-        <div style="padding:30px;display:flex;gap:15px;">
+        <div style="padding:25px;display:flex;gap:15px;">
 
             <input
+
                 type="text"
-                id="searchProduct"
-                placeholder="Search Product">
 
-            <select>
+                id="searchInput"
 
-                <option>All Categories</option>
-                <option>Laptop</option>
-                <option>Accessories</option>
-                <option>Networking</option>
+                placeholder="Search Product..."
 
-            </select>
+                onkeyup="searchProducts()">
 
         </div>
 
-        <!-- Inventory Table -->
+        <!-- Table -->
 
         <section class="orders">
 
@@ -135,144 +116,18 @@
                     <tr>
 
                         <th>ID</th>
-
                         <th>Name</th>
-
                         <th>Category</th>
-
                         <th>Price</th>
-
                         <th>Stock</th>
-
                         <th>Status</th>
-
                         <th>Action</th>
 
                     </tr>
 
                 </thead>
 
-                <tbody id="productTable">
-
-                    <tr>
-
-                        <td>P001</td>
-
-                        <td>Dell Laptop</td>
-
-                        <td>Laptop</td>
-
-                        <td>$800</td>
-
-                        <td>15</td>
-
-                        <td>
-
-                            <span class="completed">
-
-                                Available
-
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                            <button class="btn btn-primary">
-
-                                Edit
-
-                            </button>
-
-                            <button class="btn btn-danger">
-
-                                Delete
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>P002</td>
-
-                        <td>Wireless Mouse</td>
-
-                        <td>Accessories</td>
-
-                        <td>$25</td>
-
-                        <td>6</td>
-
-                        <td>
-
-                            <span class="pending">
-
-                                Low Stock
-
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                            <button class="btn btn-primary">
-
-                                Edit
-
-                            </button>
-
-                            <button class="btn btn-danger">
-
-                                Delete
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>P003</td>
-
-                        <td>Router</td>
-
-                        <td>Networking</td>
-
-                        <td>$95</td>
-
-                        <td>18</td>
-
-                        <td>
-
-                            <span class="completed">
-
-                                Available
-
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                            <button class="btn btn-primary">
-
-                                Edit
-
-                            </button>
-
-                            <button class="btn btn-danger">
-
-                                Delete
-
-                            </button>
-
-                        </td>
-
-                    </tr>
+                <tbody id="inventoryTableBody">
 
                 </tbody>
 
@@ -284,9 +139,106 @@
 
 </div>
 
+<!-- ======================================== -->
+<!-- Product Modal -->
+<!-- ======================================== -->
+
+<div
+    id="productModal"
+    class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+
+                Add Product
+
+            </h2>
+
+            <span
+                class="close"
+                onclick="closeProductModal()">
+
+                &times;
+
+            </span>
+
+        </div>
+
+        <form
+            id="productForm">
+
+            <input
+                id="productId"
+                placeholder="Product ID"
+                required>
+
+            <input
+                id="productName"
+                placeholder="Product Name"
+                required>
+
+            <input
+                id="category"
+                placeholder="Category"
+                required>
+
+            <input
+                id="price"
+                type="number"
+                placeholder="Price"
+                required>
+
+            <input
+                id="stock"
+                type="number"
+                placeholder="Stock"
+                required>
+
+            <input
+                id="minimumStock"
+                type="number"
+                placeholder="Minimum Stock"
+                required>
+
+            <input
+                id="supplier"
+                placeholder="Supplier"
+                required>
+
+            <div
+                style="display:flex;gap:10px;margin-top:20px;">
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="saveProduct()">
+
+                    Save
+
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    onclick="closeProductModal()">
+
+                    Cancel
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
 <script src="js/api.js"></script>
 <script src="js/inventory.js"></script>
 
 </body>
-
 </html>

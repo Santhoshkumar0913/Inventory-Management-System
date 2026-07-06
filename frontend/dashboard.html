@@ -4,17 +4,18 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Inventory Dashboard</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/forms.css">
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
@@ -44,7 +45,7 @@
 
             </li>
 
-            <li>
+            <li onclick="location.href='inventory.html'">
 
                 <i class="fa-solid fa-box"></i>
 
@@ -52,7 +53,7 @@
 
             </li>
 
-            <li>
+            <li onclick="location.href='orders.html'">
 
                 <i class="fa-solid fa-cart-shopping"></i>
 
@@ -60,7 +61,7 @@
 
             </li>
 
-            <li>
+            <li onclick="location.href='returns.html'">
 
                 <i class="fa-solid fa-rotate-left"></i>
 
@@ -68,7 +69,7 @@
 
             </li>
 
-            <li>
+            <li onclick="location.href='users.html'">
 
                 <i class="fa-solid fa-users"></i>
 
@@ -76,19 +77,11 @@
 
             </li>
 
-            <li>
+            <li onclick="location.href='reports.html'">
 
-                <i class="fa-solid fa-file-lines"></i>
+                <i class="fa-solid fa-chart-column"></i>
 
                 <span>Reports</span>
-
-            </li>
-
-            <li>
-
-                <i class="fa-solid fa-right-from-bracket"></i>
-
-                <span>Logout</span>
 
             </li>
 
@@ -104,169 +97,73 @@
 
             <h2>Dashboard</h2>
 
-            <div class="admin">
-
-                Welcome, <strong>Admin</strong>
-
-            </div>
-
         </header>
 
-        <!-- Cards -->
+        <!-- Dashboard Cards -->
 
         <section class="cards">
 
             <div class="card">
 
-                <div>
+                <h3>Total Products</h3>
 
-                    <h3>Total Products</h3>
-
-                    <h1>240</h1>
-
-                </div>
-
-                <div class="icon blue">
-
-                    <i class="fa-solid fa-box"></i>
-
-                </div>
+                <h1 id="totalProducts">0</h1>
 
             </div>
 
             <div class="card">
 
-                <div>
+                <h3>Total Orders</h3>
 
-                    <h3>Orders</h3>
-
-                    <h1>58</h1>
-
-                </div>
-
-                <div class="icon green">
-
-                    <i class="fa-solid fa-cart-shopping"></i>
-
-                </div>
+                <h1 id="totalOrders">0</h1>
 
             </div>
 
             <div class="card">
 
-                <div>
+                <h3>Total Returns</h3>
 
-                    <h3>Low Stock</h3>
-
-                    <h1>17</h1>
-
-                </div>
-
-                <div class="icon orange">
-
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-
-                </div>
+                <h1 id="totalReturns">0</h1>
 
             </div>
 
             <div class="card">
 
-                <div>
+                <h3>Low Stock</h3>
 
-                    <h3>Returns</h3>
+                <h1 id="lowStock">0</h1>
 
-                    <h1>4</h1>
+            </div>
 
-                </div>
+            <div class="card">
 
-                <div class="icon red">
+                <h3>Inventory Value</h3>
 
-                    <i class="fa-solid fa-rotate-left"></i>
+                <h1 id="inventoryValue">$0</h1>
 
-                </div>
+            </div>
+
+            <div class="card">
+
+                <h3>Demand Forecast</h3>
+
+                <h1 id="forecast">-</h1>
 
             </div>
 
         </section>
 
-        <!-- Charts -->
+        <br>
 
-        <section class="dashboard-grid">
-
-            <div class="chart-card">
-
-                <h3>Inventory Overview</h3>
-
-                <canvas id="inventoryChart"></canvas>
-
-            </div>
-
-            <div class="chart-card">
-
-                <h3>Low Stock Products</h3>
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Product</th>
-
-                            <th>Qty</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        <tr>
-
-                            <td>Mouse</td>
-
-                            <td>6</td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>Keyboard</td>
-
-                            <td>4</td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>SSD</td>
-
-                            <td>8</td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>Router</td>
-
-                            <td>3</td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </section>
-
-        <!-- Recent Orders -->
+        <!-- Recent Products -->
 
         <section class="orders">
 
-            <h3>Recent Orders</h3>
+            <h3 style="margin-bottom:20px;">
+
+                Recent Products
+
+            </h3>
 
             <table>
 
@@ -274,55 +171,53 @@
 
                     <tr>
 
-                        <th>Order ID</th>
-
-                        <th>Customer</th>
-
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Stock</th>
                         <th>Status</th>
-
-                        <th>Amount</th>
 
                     </tr>
 
                 </thead>
 
-                <tbody>
+                <tbody id="dashboardTable">
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+        <br>
+
+        <!-- Reorder Alerts -->
+
+        <section class="orders">
+
+            <h3 style="margin-bottom:20px;">
+
+                Reorder Alerts
+
+            </h3>
+
+            <table>
+
+                <thead>
 
                     <tr>
 
-                        <td>#1001</td>
-
-                        <td>John</td>
-
-                        <td><span class="completed">Completed</span></td>
-
-                        <td>$450</td>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Stock</th>
+                        <th>Minimum Stock</th>
+                        <th>Alert</th>
 
                     </tr>
 
-                    <tr>
+                </thead>
 
-                        <td>#1002</td>
-
-                        <td>David</td>
-
-                        <td><span class="pending">Pending</span></td>
-
-                        <td>$280</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>#1003</td>
-
-                        <td>Smith</td>
-
-                        <td><span class="completed">Completed</span></td>
-
-                        <td>$620</td>
-
-                    </tr>
+                <tbody id="reorderTable">
 
                 </tbody>
 
@@ -334,6 +229,7 @@
 
 </div>
 
+<script src="js/api.js"></script>
 <script src="js/dashboard.js"></script>
 
 </body>

@@ -1,0 +1,14 @@
+{
+  "name": "inventory-functions",
+  "version": "1.0.0",
+  "description": "Azure Functions Backend for Inventory Management System",
+  "main": "src/functions/*.js",
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests configured\""
+  },
+  "dependencies": {
+    "@azure/functions": "^4.7.3",
+    "@azure/cosmos": "^4.9.3"
+  }
+}
