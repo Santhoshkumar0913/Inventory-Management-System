@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inventory Management</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-boxes-stacked"></i>
+
+            <span>InventoryMS</span>
+
+        </div>
+
+        <ul>
+
+            <li onclick="location.href='dashboard.html'">
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>Dashboard</span>
+
+            </li>
+
+            <li class="active">
+
+                <i class="fa-solid fa-box"></i>
+
+                <span>Inventory</span>
+
+            </li>
+
+            <li onclick="location.href='orders.html'">
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                <span>Orders</span>
+
+            </li>
+
+            <li onclick="location.href='returns.html'">
+
+                <i class="fa-solid fa-rotate-left"></i>
+
+                <span>Returns</span>
+
+            </li>
+
+            <li onclick="location.href='users.html'">
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>Users</span>
+
+            </li>
+
+            <li onclick="location.href='reports.html'">
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <span>Reports</span>
+
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- Main -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <h2>Inventory</h2>
+
+            <button class="btn btn-primary">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Add Product
+
+            </button>
+
+        </header>
+
+        <!-- Search -->
+
+        <div style="padding:30px;display:flex;gap:15px;">
+
+            <input
+                type="text"
+                id="searchProduct"
+                placeholder="Search Product">
+
+            <select>
+
+                <option>All Categories</option>
+                <option>Laptop</option>
+                <option>Accessories</option>
+                <option>Networking</option>
+
+            </select>
+
+        </div>
+
+        <!-- Inventory Table -->
+
+        <section class="orders">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Name</th>
+
+                        <th>Category</th>
+
+                        <th>Price</th>
+
+                        <th>Stock</th>
+
+                        <th>Status</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="productTable">
+
+                    <tr>
+
+                        <td>P001</td>
+
+                        <td>Dell Laptop</td>
+
+                        <td>Laptop</td>
+
+                        <td>$800</td>
+
+                        <td>15</td>
+
+                        <td>
+
+                            <span class="completed">
+
+                                Available
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button class="btn btn-primary">
+
+                                Edit
+
+                            </button>
+
+                            <button class="btn btn-danger">
+
+                                Delete
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>P002</td>
+
+                        <td>Wireless Mouse</td>
+
+                        <td>Accessories</td>
+
+                        <td>$25</td>
+
+                        <td>6</td>
+
+                        <td>
+
+                            <span class="pending">
+
+                                Low Stock
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button class="btn btn-primary">
+
+                                Edit
+
+                            </button>
+
+                            <button class="btn btn-danger">
+
+                                Delete
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>P003</td>
+
+                        <td>Router</td>
+
+                        <td>Networking</td>
+
+                        <td>$95</td>
+
+                        <td>18</td>
+
+                        <td>
+
+                            <span class="completed">
+
+                                Available
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button class="btn btn-primary">
+
+                                Edit
+
+                            </button>
+
+                            <button class="btn btn-danger">
+
+                                Delete
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/inventory.js"></script>
+
+</body>
+
+</html>

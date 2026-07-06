@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inventory Dashboard</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-boxes-stacked"></i>
+
+            <span>InventoryMS</span>
+
+        </div>
+
+        <ul>
+
+            <li class="active">
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>Dashboard</span>
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-box"></i>
+
+                <span>Inventory</span>
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                <span>Orders</span>
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-rotate-left"></i>
+
+                <span>Returns</span>
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>Users</span>
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <span>Reports</span>
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- Main -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <h2>Dashboard</h2>
+
+            <div class="admin">
+
+                Welcome, <strong>Admin</strong>
+
+            </div>
+
+        </header>
+
+        <!-- Cards -->
+
+        <section class="cards">
+
+            <div class="card">
+
+                <div>
+
+                    <h3>Total Products</h3>
+
+                    <h1>240</h1>
+
+                </div>
+
+                <div class="icon blue">
+
+                    <i class="fa-solid fa-box"></i>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div>
+
+                    <h3>Orders</h3>
+
+                    <h1>58</h1>
+
+                </div>
+
+                <div class="icon green">
+
+                    <i class="fa-solid fa-cart-shopping"></i>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div>
+
+                    <h3>Low Stock</h3>
+
+                    <h1>17</h1>
+
+                </div>
+
+                <div class="icon orange">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div>
+
+                    <h3>Returns</h3>
+
+                    <h1>4</h1>
+
+                </div>
+
+                <div class="icon red">
+
+                    <i class="fa-solid fa-rotate-left"></i>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Charts -->
+
+        <section class="dashboard-grid">
+
+            <div class="chart-card">
+
+                <h3>Inventory Overview</h3>
+
+                <canvas id="inventoryChart"></canvas>
+
+            </div>
+
+            <div class="chart-card">
+
+                <h3>Low Stock Products</h3>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Product</th>
+
+                            <th>Qty</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>Mouse</td>
+
+                            <td>6</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>Keyboard</td>
+
+                            <td>4</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>SSD</td>
+
+                            <td>8</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>Router</td>
+
+                            <td>3</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- Recent Orders -->
+
+        <section class="orders">
+
+            <h3>Recent Orders</h3>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Order ID</th>
+
+                        <th>Customer</th>
+
+                        <th>Status</th>
+
+                        <th>Amount</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>#1001</td>
+
+                        <td>John</td>
+
+                        <td><span class="completed">Completed</span></td>
+
+                        <td>$450</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>#1002</td>
+
+                        <td>David</td>
+
+                        <td><span class="pending">Pending</span></td>
+
+                        <td>$280</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>#1003</td>
+
+                        <td>Smith</td>
+
+                        <td><span class="completed">Completed</span></td>
+
+                        <td>$620</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="js/dashboard.js"></script>
+
+</body>
+
+</html>
