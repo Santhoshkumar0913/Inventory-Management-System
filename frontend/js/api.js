@@ -1,12 +1,18 @@
-const API_BASE = "http://localhost:7071/api";
+// ==========================================
+// Azure Function API Base URL
+// ==========================================
 
-// ===============================
+const API_BASE =
+    "https://inventoryms-api-ard4d5aaf7hnahcg.centralindia-01.azurewebsites.net/api";
+
+// ==========================================
 // GET
-// ===============================
+// ==========================================
 
 async function apiGet(endpoint) {
 
-    const response = await fetch(`${API_BASE}/${endpoint}`);
+    const response =
+        await fetch(`${API_BASE}/${endpoint}`);
 
     if (!response.ok) {
 
@@ -18,25 +24,26 @@ async function apiGet(endpoint) {
 
 }
 
-// ===============================
+// ==========================================
 // POST
-// ===============================
+// ==========================================
 
 async function apiPost(endpoint, data) {
 
-    const response = await fetch(`${API_BASE}/${endpoint}`, {
+    const response =
+        await fetch(`${API_BASE}/${endpoint}`, {
 
-        method: "POST",
+            method: "POST",
 
-        headers: {
+            headers: {
 
-            "Content-Type": "application/json"
+                "Content-Type": "application/json"
 
-        },
+            },
 
-        body: JSON.stringify(data)
+            body: JSON.stringify(data)
 
-    });
+        });
 
     if (!response.ok) {
 
@@ -48,25 +55,26 @@ async function apiPost(endpoint, data) {
 
 }
 
-// ===============================
+// ==========================================
 // PUT
-// ===============================
+// ==========================================
 
 async function apiPut(endpoint, data) {
 
-    const response = await fetch(`${API_BASE}/${endpoint}`, {
+    const response =
+        await fetch(`${API_BASE}/${endpoint}`, {
 
-        method: "PUT",
+            method: "PUT",
 
-        headers: {
+            headers: {
 
-            "Content-Type": "application/json"
+                "Content-Type": "application/json"
 
-        },
+            },
 
-        body: JSON.stringify(data)
+            body: JSON.stringify(data)
 
-    });
+        });
 
     if (!response.ok) {
 
@@ -78,17 +86,18 @@ async function apiPut(endpoint, data) {
 
 }
 
-// ===============================
+// ==========================================
 // DELETE
-// ===============================
+// ==========================================
 
 async function apiDelete(endpoint) {
 
-    const response = await fetch(`${API_BASE}/${endpoint}`, {
+    const response =
+        await fetch(`${API_BASE}/${endpoint}`, {
 
-        method: "DELETE"
+            method: "DELETE"
 
-    });
+        });
 
     if (!response.ok) {
 
