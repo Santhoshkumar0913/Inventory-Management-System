@@ -14,12 +14,11 @@ app.http("products", {
         try {
 
             const method = request.method;
-
             const id = request.params.id;
 
-            // ===========================
-            // GET
-            // ===========================
+            // =====================================
+            // GET ALL PRODUCTS
+            // =====================================
 
             if (method === "GET") {
 
@@ -35,7 +34,9 @@ app.http("products", {
                             status: 404,
 
                             jsonBody: {
+
                                 message: "Product not found"
+
                             }
 
                         };
@@ -65,31 +66,31 @@ app.http("products", {
 
             }
 
-            // ===========================
-            // POST
-            // ===========================
+            // =====================================
+            // CREATE PRODUCT
+            // =====================================
 
             if (method === "POST") {
 
                 const body =
                     await request.json();
 
-                const product =
+                const created =
                     await productService.createProduct(body);
 
                 return {
 
                     status: 201,
 
-                    jsonBody: product
+                    jsonBody: created
 
                 };
 
             }
 
-            // ===========================
-            // PUT
-            // ===========================
+            // =====================================
+            // UPDATE PRODUCT
+            // =====================================
 
             if (method === "PUT") {
 
@@ -101,7 +102,7 @@ app.http("products", {
 
                         jsonBody: {
 
-                            message: "Product ID is required"
+                            message: "Product ID required"
 
                         }
 
@@ -114,10 +115,74 @@ app.http("products", {
 
                 body.id = id;
 
-                body.documentType = "Product";
-
                 const updated =
                     await productService.updateProduct(body);
+
+                // =====================================
+                // Automatic Reorder Alert
+                // =====================================
+
+                if (
+
+                    updated.stock <=
+                    updated.minimumStock
+
+                ) {
+
+                    try {
+
+                        const fetch = global.fetch || (await import("node-fetch")).default;
+
+                        await fetch(
+
+                            "http://localhost:7071/api/reorderQueue",
+
+                            {
+
+                                method: "POST",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json"
+
+                                },
+
+                                body: JSON.stringify({
+
+                                    productId:
+                                        updated.id,
+
+                                    product:
+                                        updated.name,
+
+                                    stock:
+                                        updated.stock,
+
+                                    minimumStock:
+                                        updated.minimumStock
+
+                                })
+
+                            }
+
+                        );
+
+                    }
+
+                    catch (queueError) {
+
+                        context.log(
+
+                            "Queue Error:",
+
+                            queueError.message
+
+                        );
+
+                    }
+
+                }
 
                 return {
 
@@ -129,9 +194,9 @@ app.http("products", {
 
             }
 
-            // ===========================
-            // DELETE
-            // ===========================
+            // =====================================
+            // DELETE PRODUCT
+            // =====================================
 
             if (method === "DELETE") {
 
@@ -143,7 +208,7 @@ app.http("products", {
 
                         jsonBody: {
 
-                            message: "Product ID is required"
+                            message: "Product ID required"
 
                         }
 
@@ -160,9 +225,9 @@ app.http("products", {
 
                     jsonBody: {
 
-                        message: "Product deleted",
+                        success: true,
 
-                        product: deleted
+                        deleted
 
                     }
 
