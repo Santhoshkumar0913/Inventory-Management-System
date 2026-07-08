@@ -16,9 +16,7 @@ app.http("changePassword", {
             const body = await request.json();
 
             const email = body.email?.trim();
-
             const oldPassword = body.oldPassword;
-
             const newPassword = body.newPassword;
 
             const container = getContainer();
@@ -28,8 +26,8 @@ app.http("changePassword", {
                 query: `
                     SELECT *
                     FROM c
-                    WHERE c.documentType=@type
-                    AND c.email=@email
+                    WHERE c.documentType = @type
+                    AND c.email = @email
                 `,
 
                 parameters: [
@@ -92,11 +90,16 @@ app.http("changePassword", {
             }
 
             user.password = newPassword;
-
             user.mustChangePassword = false;
 
+            // IMPORTANT:
+            // Partition Key = documentType
+
             await container
-                .item(user.id, user.id)
+                .item(
+                    user.id,
+                    user.documentType
+                )
                 .replace(user);
 
             return {

@@ -5,7 +5,8 @@ const { getContainer } = require("../config/cosmosClient");
 const connectionString =
     process.env.AZURE_STORAGE_CONNECTION_STRING;
 
-const containerName = "inventoryreports";
+const containerName =
+    "inventoryreports";
 
 app.http("uploadReport", {
 
@@ -18,6 +19,32 @@ app.http("uploadReport", {
     handler: async (request, context) => {
 
         try {
+
+            const role =
+                request.query.get("role");
+
+            if (
+
+                role !== "Admin" &&
+                role !== "Manager"
+
+            ) {
+
+                return {
+
+                    status: 403,
+
+                    jsonBody: {
+
+                        success: false,
+
+                        message: "Access Denied"
+
+                    }
+
+                };
+
+            }
 
             const cosmos =
                 getContainer();
@@ -64,21 +91,24 @@ ${product.supplier}
 
             const blobServiceClient =
 
-                BlobServiceClient.fromConnectionString(
+                BlobServiceClient
+                    .fromConnectionString(
 
-                    connectionString
+                        connectionString
 
-                );
+                    );
 
             const containerClient =
 
-                blobServiceClient.getContainerClient(
+                blobServiceClient
+                    .getContainerClient(
 
-                    containerName
+                        containerName
 
-                );
+                    );
 
-            await containerClient.createIfNotExists();
+            await containerClient
+                .createIfNotExists();
 
             const fileName =
 
@@ -86,13 +116,13 @@ ${product.supplier}
 
             const blobClient =
 
-                containerClient.getBlockBlobClient(
+                containerClient
+                    .getBlockBlobClient(
 
-                    fileName
+                        fileName
 
-                );
-
-            await blobClient.upload(
+                    );
+                                await blobClient.upload(
 
                 csv,
 

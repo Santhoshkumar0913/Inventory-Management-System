@@ -17,7 +17,7 @@ app.http("products", {
             const id = request.params.id;
 
             // =====================================
-            // GET ALL PRODUCTS
+            // GET
             // =====================================
 
             if (method === "GET") {
@@ -75,6 +75,31 @@ app.http("products", {
                 const body =
                     await request.json();
 
+                if (
+
+                    body.role !== "Admin" &&
+                    body.role !== "Manager"
+
+                ) {
+
+                    return {
+
+                        status: 403,
+
+                        jsonBody: {
+
+                            success: false,
+
+                            message: "Access Denied"
+
+                        }
+
+                    };
+
+                }
+
+                delete body.role;
+
                 const created =
                     await productService.createProduct(body);
 
@@ -113,12 +138,36 @@ app.http("products", {
                 const body =
                     await request.json();
 
+                if (
+
+                    body.role !== "Admin" &&
+                    body.role !== "Manager"
+
+                ) {
+
+                    return {
+
+                        status: 403,
+
+                        jsonBody: {
+
+                            success: false,
+
+                            message: "Access Denied"
+
+                        }
+
+                    };
+
+                }
+
+                delete body.role;
+
                 body.id = id;
 
                 const updated =
                     await productService.updateProduct(body);
-
-                // =====================================
+                                    // =====================================
                 // Automatic Reorder Alert
                 // =====================================
 
@@ -131,7 +180,9 @@ app.http("products", {
 
                     try {
 
-                        const fetch = global.fetch || (await import("node-fetch")).default;
+                        const fetch =
+                            global.fetch ||
+                            (await import("node-fetch")).default;
 
                         await fetch(
 
@@ -216,6 +267,27 @@ app.http("products", {
 
                 }
 
+                const role =
+                    request.query.get("role");
+
+                if (role !== "Admin") {
+
+                    return {
+
+                        status: 403,
+
+                        jsonBody: {
+
+                            success: false,
+
+                            message: "Access Denied"
+
+                        }
+
+                    };
+
+                }
+
                 const deleted =
                     await productService.deleteProduct(id);
 
@@ -234,6 +306,9 @@ app.http("products", {
                 };
 
             }
+                        // =====================================
+            // METHOD NOT ALLOWED
+            // =====================================
 
             return {
 

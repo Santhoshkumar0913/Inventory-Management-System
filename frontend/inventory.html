@@ -4,7 +4,9 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>Inventory Management</title>
 
@@ -21,8 +23,6 @@
 
 <div class="container">
 
-    <!-- Sidebar -->
-
     <aside class="sidebar">
 
         <div class="logo">
@@ -36,40 +36,56 @@
         <ul>
 
             <li onclick="location.href='dashboard.html'">
+
                 <i class="fa-solid fa-house"></i>
+
                 <span>Dashboard</span>
+
             </li>
 
             <li class="active">
+
                 <i class="fa-solid fa-box"></i>
+
                 <span>Inventory</span>
+
             </li>
 
             <li onclick="location.href='orders.html'">
+
                 <i class="fa-solid fa-cart-shopping"></i>
+
                 <span>Orders</span>
+
             </li>
 
             <li onclick="location.href='returns.html'">
+
                 <i class="fa-solid fa-rotate-left"></i>
+
                 <span>Returns</span>
+
             </li>
 
             <li onclick="location.href='users.html'">
+
                 <i class="fa-solid fa-users"></i>
+
                 <span>Users</span>
+
             </li>
 
             <li onclick="location.href='reports.html'">
+
                 <i class="fa-solid fa-chart-column"></i>
+
                 <span>Reports</span>
+
             </li>
 
         </ul>
 
     </aside>
-
-    <!-- Main -->
 
     <main class="main">
 
@@ -78,6 +94,7 @@
             <h2>Inventory Management</h2>
 
             <button
+                id="addProductBtn"
                 class="btn btn-primary"
                 onclick="openProductModal()">
 
@@ -89,9 +106,8 @@
 
         </header>
 
-        <!-- Search -->
-
-        <div style="padding:25px;display:flex;gap:15px;">
+        <div
+            style="padding:25px;display:flex;gap:15px;">
 
             <input
 
@@ -105,8 +121,6 @@
 
         </div>
 
-        <!-- Table -->
-
         <section class="orders">
 
             <table>
@@ -116,11 +130,17 @@
                     <tr>
 
                         <th>ID</th>
+
                         <th>Name</th>
+
                         <th>Category</th>
+
                         <th>Price</th>
+
                         <th>Stock</th>
+
                         <th>Status</th>
+
                         <th>Action</th>
 
                     </tr>
@@ -142,8 +162,7 @@
 <!-- ======================================== -->
 <!-- Product Modal -->
 <!-- ======================================== -->
-
-<div
+ <div
     id="productModal"
     class="modal">
 
@@ -238,7 +257,9 @@
 </div>
 
 <script src="js/api.js"></script>
+<script src="js/auth.js"></script>
 <script src="js/inventory.js"></script>
 
 </body>
+
 </html>

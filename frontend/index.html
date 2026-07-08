@@ -3,72 +3,85 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-<title>Inventory Login</title>
+    <title>Inventory Login</title>
 
-<link rel="stylesheet"
-href="css/style.css">
+    <link rel="stylesheet"
+        href="css/style.css">
 
-<style>
+    <style>
 
-body{
+        body{
 
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-background:#2563eb;
+            display:flex;
 
-}
+            justify-content:center;
 
-.login{
+            align-items:center;
 
-background:white;
-padding:40px;
-border-radius:10px;
-width:350px;
-box-shadow:0 10px 20px rgba(0,0,0,.2);
+            height:100vh;
 
-}
+            background:#2563eb;
 
-h2{
+        }
 
-text-align:center;
-margin-bottom:25px;
+        .login{
 
-}
+            background:white;
 
-input{
+            padding:40px;
 
-width:100%;
-padding:12px;
-margin-bottom:15px;
+            border-radius:10px;
 
-}
+            width:350px;
 
-button{
+            box-shadow:0 10px 20px rgba(0,0,0,.2);
 
-width:100%;
-background:#2563eb;
-color:white;
-padding:12px;
-cursor:pointer;
+        }
 
-}
+        h2{
 
-#error{
+            text-align:center;
 
-color:red;
-margin-top:15px;
-text-align:center;
+            margin-bottom:25px;
 
-}
+        }
 
-</style>
+        input{
+
+            width:100%;
+
+            padding:12px;
+
+            margin-bottom:15px;
+
+            box-sizing:border-box;
+
+        }
+
+        button{
+
+            width:100%;
+
+            background:#2563eb;
+
+            color:white;
+
+            padding:12px;
+
+            border:none;
+
+            cursor:pointer;
+
+            border-radius:5px;
+
+        }
+
+    </style>
 
 </head>
 
@@ -76,25 +89,23 @@ text-align:center;
 
 <div class="login">
 
-<h2>Inventory Login</h2>
+    <h2>Inventory Login</h2>
 
-<input
-type="email"
-placeholder="Email"
-id="email">
+    <input
+        type="email"
+        placeholder="Email"
+        id="username">
 
-<input
-type="password"
-placeholder="Password"
-id="password">
+    <input
+        type="password"
+        placeholder="Password"
+        id="password">
 
-<button onclick="login()">
+    <button onclick="login()">
 
-Login
+        Login
 
-</button>
-
-<p id="error"></p>
+    </button>
 
 </div>
 
@@ -105,44 +116,61 @@ Login
 
 async function login(){
 
-const email =
-document.getElementById("email").value.trim();
+    const email =
+        document.getElementById("username").value.trim();
 
-const password =
-document.getElementById("password").value;
+    const password =
+        document.getElementById("password").value;
 
-try{
+    if(!email || !password){
 
-const result =
-await apiPost("login",{
+        alert("Enter Email and Password");
 
-email,
-password
+        return;
 
-});
+    }
 
-saveUser(result.user);
+    try{
 
-if(result.mustChangePassword){
+        const response =
+            await apiPost(
+                "login",
+                {
+                    email,
+                    password
+                }
+            );
 
-window.location.href =
-"change-password.html";
+        saveUser({
 
-return;
+            ...response.user,
 
-}
+            mustChangePassword:
+                response.mustChangePassword
 
-window.location.href =
-"dashboard.html";
+        });
 
-}
+        if(response.mustChangePassword){
 
-catch(error){
+            window.location.href =
+                "changePassword.html";
 
-document.getElementById("error").innerText =
-"Invalid Email or Password";
+        }
 
-}
+        else{
+
+            window.location.href =
+                "dashboard.html";
+
+        }
+
+    }
+
+    catch(error){
+
+        alert("Invalid Email or Password");
+
+    }
 
 }
 

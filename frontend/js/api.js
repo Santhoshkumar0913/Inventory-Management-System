@@ -76,13 +76,15 @@ async function apiPut(endpoint, data) {
 
         });
 
+    const result = await response.json();
+
     if (!response.ok) {
 
-        throw new Error("PUT request failed");
+        throw new Error(result.message);
 
     }
 
-    return await response.json();
+    return result;
 
 }
 

@@ -2,9 +2,37 @@
 // Inventory Management
 // ==========================================
 
+requireLogin();
+
 let products = [];
 let editMode = false;
 let editProductId = null;
+
+const currentUser = getUser();
+
+const canAdd =
+    hasRole("Admin", "Manager");
+
+const canEdit =
+    hasRole("Admin", "Manager");
+
+const canDelete =
+    hasRole("Admin");
+
+window.onload = function () {
+
+    const addBtn =
+        document.getElementById("addProductBtn");
+
+    if (addBtn && !canAdd) {
+
+        addBtn.style.display = "none";
+
+    }
+
+    loadProducts();
+
+};
 
 // ==========================================
 // Load Products
@@ -14,11 +42,14 @@ async function loadProducts() {
 
     try {
 
-        products = await apiGet("products");
+        products =
+            await apiGet("products");
 
         renderProducts(products);
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(error);
 
@@ -34,7 +65,10 @@ async function loadProducts() {
 
 function renderProducts(productList) {
 
-    const tbody = document.getElementById("inventoryTableBody");
+    const tbody =
+        document.getElementById(
+            "inventoryTableBody"
+        );
 
     tbody.innerHTML = "";
 
@@ -49,6 +83,40 @@ function renderProducts(productList) {
             product.stock <= product.minimumStock
                 ? "pending"
                 : "completed";
+
+        let actions = "";
+
+        if (canEdit) {
+
+            actions += `
+
+<button
+class="btn btn-primary"
+onclick="editProduct('${product.id}')">
+
+Edit
+
+</button>
+
+`;
+
+        }
+
+        if (canDelete) {
+
+            actions += `
+
+<button
+class="btn btn-danger"
+onclick="deleteProduct('${product.id}')">
+
+Delete
+
+</button>
+
+`;
+
+        }
 
         tbody.innerHTML += `
 
@@ -76,21 +144,7 @@ ${status}
 
 <td>
 
-<button
-class="btn btn-primary"
-onclick="editProduct('${product.id}')">
-
-Edit
-
-</button>
-
-<button
-class="btn btn-danger"
-onclick="deleteProduct('${product.id}')">
-
-Delete
-
-</button>
+${actions}
 
 </td>
 
@@ -109,12 +163,14 @@ Delete
 function searchProducts() {
 
     const keyword =
+
         document
             .getElementById("searchInput")
             .value
             .toLowerCase();
 
     const filtered =
+
         products.filter(product =>
 
             product.name
@@ -132,31 +188,47 @@ function searchProducts() {
     renderProducts(filtered);
 
 }
-
 // ==========================================
-// Modal
+// Open Modal
 // ==========================================
 
 function openProductModal() {
+
+    if (!canAdd) {
+
+        alert("Access Denied");
+
+        return;
+
+    }
 
     editMode = false;
 
     editProductId = null;
 
-    document.getElementById("productForm").reset();
+    document
+        .getElementById("productForm")
+        .reset();
 
-    document.getElementById("modalTitle").innerHTML =
-        "Add Product";
+    document
+        .getElementById("modalTitle")
+        .innerHTML = "Add Product";
 
-    document.getElementById("productModal").style.display =
-        "flex";
+    document
+        .getElementById("productModal")
+        .style.display = "flex";
 
 }
 
+// ==========================================
+// Close Modal
+// ==========================================
+
 function closeProductModal() {
 
-    document.getElementById("productModal").style.display =
-        "none";
+    document
+        .getElementById("productModal")
+        .style.display = "none";
 
 }
 
@@ -165,6 +237,14 @@ function closeProductModal() {
 // ==========================================
 
 async function saveProduct() {
+
+    if (!canAdd && !canEdit) {
+
+        alert("Access Denied");
+
+        return;
+
+    }
 
     const product = {
 
@@ -207,30 +287,58 @@ async function saveProduct() {
         supplier:
             document
                 .getElementById("supplier")
-                .value
+                .value,
+
+        role:
+            currentUser.role
 
     };
-        try {
+
+    try {
 
         if (editMode) {
 
+            if (!canEdit) {
+
+                alert("Access Denied");
+
+                return;
+
+            }
+
             await apiPut(
+
                 `products/${editProductId}`,
+
                 product
+
             );
 
-        } else {
+        }
+
+        else {
+
+            if (!canAdd) {
+
+                alert("Access Denied");
+
+                return;
+
+            }
 
             await apiPost(
+
                 "products",
+
                 product
+
             );
 
         }
 
         closeProductModal();
 
-        await loadProducts();
+        loadProducts();
 
     }
 
@@ -238,7 +346,7 @@ async function saveProduct() {
 
         console.error(error);
 
-        alert("Unable to save product.");
+        alert(error.message);
 
     }
 
@@ -250,60 +358,93 @@ async function saveProduct() {
 
 function editProduct(id) {
 
+    if (!canEdit) {
+
+        alert("Access Denied");
+
+        return;
+
+    }
+
     const product =
         products.find(p => p.id === id);
 
-    if (!product) return;
+    if (!product) {
+
+        return;
+
+    }
 
     editMode = true;
 
     editProductId = id;
 
-    document.getElementById("modalTitle").innerHTML =
-        "Edit Product";
+    document
+        .getElementById("modalTitle")
+        .innerHTML = "Edit Product";
 
-    document.getElementById("productId").value =
-        product.id;
+    document
+        .getElementById("productId")
+        .value = product.id;
 
-    document.getElementById("productName").value =
-        product.name;
+    document
+        .getElementById("productName")
+        .value = product.name;
 
-    document.getElementById("category").value =
-        product.category;
+    document
+        .getElementById("category")
+        .value = product.category;
 
-    document.getElementById("price").value =
-        product.price;
+    document
+        .getElementById("price")
+        .value = product.price;
 
-    document.getElementById("stock").value =
-        product.stock;
+    document
+        .getElementById("stock")
+        .value = product.stock;
 
-    document.getElementById("minimumStock").value =
-        product.minimumStock;
+    document
+        .getElementById("minimumStock")
+        .value = product.minimumStock;
 
-    document.getElementById("supplier").value =
-        product.supplier;
+    document
+        .getElementById("supplier")
+        .value = product.supplier;
 
-    document.getElementById("productModal").style.display =
-        "flex";
+    document
+        .getElementById("productModal")
+        .style.display = "flex";
 
 }
-
 // ==========================================
 // Delete Product
 // ==========================================
 
 async function deleteProduct(id) {
 
-    if (!confirm("Delete this product?"))
+    if (!canDelete) {
+
+        alert("Access Denied");
+
         return;
+
+    }
+
+    if (!confirm("Delete this product?")) {
+
+        return;
+
+    }
 
     try {
 
         await apiDelete(
-            `products/${id}`
+
+            `products/${id}?role=${currentUser.role}`
+
         );
 
-        await loadProducts();
+        loadProducts();
 
     }
 
@@ -311,14 +452,14 @@ async function deleteProduct(id) {
 
         console.error(error);
 
-        alert("Unable to delete product.");
+        alert(error.message);
 
     }
 
 }
 
 // ==========================================
-// Initialize
+// Close Modal on Outside Click
 // ==========================================
 
 window.onclick = function (event) {
@@ -333,5 +474,3 @@ window.onclick = function (event) {
     }
 
 };
-
-loadProducts();

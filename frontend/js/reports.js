@@ -1,16 +1,62 @@
 // ==========================================
+// Authentication
+// ==========================================
+
+requireLogin();
+
+const currentUser =
+    getUser();
+
+const canGenerate =
+    hasRole("Admin", "Manager");
+
+// ==========================================
+// Initialize
+// ==========================================
+
+window.onload = function () {
+
+    const btn =
+        document.getElementById(
+            "generateReportBtn"
+        );
+
+    if (btn && !canGenerate) {
+
+        btn.style.display = "none";
+
+    }
+
+};
+
+// ==========================================
 // Generate Inventory Report
 // ==========================================
 
 async function generateReport() {
 
+    if (!canGenerate) {
+
+        alert("Access Denied");
+
+        return;
+
+    }
+
     try {
 
         const response =
-            await apiGet("uploadReport");
+            await apiGet(
+
+                `uploadReport?role=${currentUser.role}`
+
+            );
 
         const status =
-            document.getElementById("reportStatus");
+
+            document.getElementById(
+                "reportStatus"
+            );
 
         status.innerHTML = `
 
@@ -36,7 +82,9 @@ ${response.fileName}
 
 <b>Blob URL:</b>
 
-<a href="${response.url}" target="_blank">
+<a
+href="${response.url}"
+target="_blank">
 
 ${response.url}
 
@@ -46,7 +94,11 @@ ${response.url}
 
 `;
 
-        alert("Inventory Report uploaded to Azure Blob Storage.");
+        alert(
+
+            "Inventory Report uploaded to Azure Blob Storage."
+
+        );
 
     }
 
@@ -54,7 +106,7 @@ ${response.url}
 
         console.error(error);
 
-        alert("Unable to generate report.");
+        alert(error.message);
 
     }
 
