@@ -1,13 +1,13 @@
 const { app } = require("@azure/functions");
 const { getContainer } = require("../config/cosmosClient");
 
-app.http("login", {
+app.http("changePassword", {
 
-    methods: ["POST"],
+    methods: ["PUT"],
 
     authLevel: "anonymous",
 
-    route: "login",
+    route: "changePassword",
 
     handler: async (request, context) => {
 
@@ -16,7 +16,10 @@ app.http("login", {
             const body = await request.json();
 
             const email = body.email?.trim();
-            const password = body.password;
+
+            const oldPassword = body.oldPassword;
+
+            const newPassword = body.newPassword;
 
             const container = getContainer();
 
@@ -25,8 +28,8 @@ app.http("login", {
                 query: `
                     SELECT *
                     FROM c
-                    WHERE c.documentType = @type
-                    AND c.email = @email
+                    WHERE c.documentType=@type
+                    AND c.email=@email
                 `,
 
                 parameters: [
@@ -54,7 +57,7 @@ app.http("login", {
 
                 return {
 
-                    status: 401,
+                    status: 404,
 
                     jsonBody: {
 
@@ -70,7 +73,7 @@ app.http("login", {
 
             const user = resources[0];
 
-            if (user.password !== password) {
+            if (user.password !== oldPassword) {
 
                 return {
 
@@ -80,7 +83,7 @@ app.http("login", {
 
                         success: false,
 
-                        message: "Incorrect password"
+                        message: "Old password is incorrect"
 
                     }
 
@@ -88,23 +91,13 @@ app.http("login", {
 
             }
 
-            if (user.status !== "Active") {
+            user.password = newPassword;
 
-                return {
+            user.mustChangePassword = false;
 
-                    status: 403,
-
-                    jsonBody: {
-
-                        success: false,
-
-                        message: "Account is disabled"
-
-                    }
-
-                };
-
-            }
+            await container
+                .item(user.id, user.id)
+                .replace(user);
 
             return {
 
@@ -114,16 +107,7 @@ app.http("login", {
 
                     success: true,
 
-                    mustChangePassword: user.mustChangePassword,
-
-                    user: {
-
-                        id: user.id,
-                        name: user.name,
-                        email: user.email,
-                        role: user.role
-
-                    }
+                    message: "Password updated successfully"
 
                 }
 

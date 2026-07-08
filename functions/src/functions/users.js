@@ -1,96 +1,137 @@
 const { app } = require("@azure/functions");
 const { getContainer } = require("../config/cosmosClient");
 
+// ==========================================
+// GET USERS
+// ==========================================
+
 app.http("users", {
 
-    methods: ["GET", "POST"],
+    methods: ["GET"],
 
     authLevel: "anonymous",
 
-    route: "users/{id?}",
+    route: "users",
 
-    handler: async (request, context) => {
+    handler: async () => {
 
         try {
 
             const container = getContainer();
 
-            // ===================================
-            // GET USERS
-            // ===================================
+            const query = {
 
-            if (request.method === "GET") {
+                query: `
+                    SELECT *
+                    FROM c
+                    WHERE c.documentType=@type
+                    ORDER BY c.name
+                `,
 
-                const querySpec = {
+                parameters: [
 
-                    query: `
-                        SELECT *
-                        FROM c
-                        WHERE c.documentType = @type
-                    `,
+                    {
+                        name: "@type",
+                        value: "User"
+                    }
 
-                    parameters: [
+                ]
 
-                        {
-                            name: "@type",
-                            value: "User"
-                        }
+            };
 
-                    ]
-
-                };
-
-                const { resources } =
-                    await container.items
-                        .query(querySpec)
-                        .fetchAll();
-
-                return {
-
-                    status: 200,
-
-                    jsonBody: resources
-
-                };
-
-            }
-
-            // ===================================
-            // CREATE USER
-            // ===================================
-
-            if (request.method === "POST") {
-
-                const body =
-                    await request.json();
-
-                body.documentType = "User";
-
-                body.status = "Active";
-
-                body.createdDate =
-                    new Date().toISOString().split("T")[0];
-
-                const { resource } =
-                    await container.items.create(body);
-
-                return {
-
-                    status: 201,
-
-                    jsonBody: resource
-
-                };
-
-            }
+            const { resources } =
+                await container.items
+                    .query(query)
+                    .fetchAll();
 
             return {
 
-                status: 405,
+                status: 200,
+
+                jsonBody: resources
+
+            };
+
+        }
+
+        catch (error) {
+
+            return {
+
+                status: 500,
 
                 jsonBody: {
 
-                    message: "Method Not Allowed"
+                    success: false,
+
+                    message: error.message
+
+                }
+
+            };
+
+        }
+
+    }
+
+});
+
+// ==========================================
+// ADD USER
+// ==========================================
+
+app.http("addUser", {
+
+    methods: ["POST"],
+
+    authLevel: "anonymous",
+
+    route: "users",
+
+    handler: async (request) => {
+
+        try {
+
+            const body = await request.json();
+
+            const container = getContainer();
+
+            const id =
+                "EMP" + Date.now();
+
+            const user = {
+
+                id,
+
+                documentType: "User",
+
+                name: body.name,
+
+                email: body.email,
+
+                password: "Welcome@123",
+
+                role: body.role,
+
+                status: body.status,
+
+                mustChangePassword: true
+
+            };
+
+            await container.items.create(user);
+
+            return {
+
+                status: 201,
+
+                jsonBody: {
+
+                    success: true,
+
+                    message: "User Created Successfully",
+
+                    user
 
                 }
 
@@ -99,8 +140,6 @@ app.http("users", {
         }
 
         catch (error) {
-
-            context.error(error);
 
             return {
 

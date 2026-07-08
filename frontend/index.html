@@ -18,13 +18,9 @@ href="css/style.css">
 body{
 
 display:flex;
-
 justify-content:center;
-
 align-items:center;
-
 height:100vh;
-
 background:#2563eb;
 
 }
@@ -32,13 +28,9 @@ background:#2563eb;
 .login{
 
 background:white;
-
 padding:40px;
-
 border-radius:10px;
-
 width:350px;
-
 box-shadow:0 10px 20px rgba(0,0,0,.2);
 
 }
@@ -46,20 +38,33 @@ box-shadow:0 10px 20px rgba(0,0,0,.2);
 h2{
 
 text-align:center;
-
 margin-bottom:25px;
+
+}
+
+input{
+
+width:100%;
+padding:12px;
+margin-bottom:15px;
 
 }
 
 button{
 
 width:100%;
-
 background:#2563eb;
-
 color:white;
-
 padding:12px;
+cursor:pointer;
+
+}
+
+#error{
+
+color:red;
+margin-top:15px;
+text-align:center;
 
 }
 
@@ -74,9 +79,9 @@ padding:12px;
 <h2>Inventory Login</h2>
 
 <input
-type="text"
-placeholder="Username"
-id="username">
+type="email"
+placeholder="Email"
+id="email">
 
 <input
 type="password"
@@ -89,13 +94,55 @@ Login
 
 </button>
 
+<p id="error"></p>
+
 </div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
 
 <script>
 
-function login(){
+async function login(){
 
-location.href="dashboard.html";
+const email =
+document.getElementById("email").value.trim();
+
+const password =
+document.getElementById("password").value;
+
+try{
+
+const result =
+await apiPost("login",{
+
+email,
+password
+
+});
+
+saveUser(result.user);
+
+if(result.mustChangePassword){
+
+window.location.href =
+"change-password.html";
+
+return;
+
+}
+
+window.location.href =
+"dashboard.html";
+
+}
+
+catch(error){
+
+document.getElementById("error").innerText =
+"Invalid Email or Password";
+
+}
 
 }
 

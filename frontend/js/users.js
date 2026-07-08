@@ -1,8 +1,19 @@
 // ==========================================
-// Users
+// Authentication
 // ==========================================
 
-let users = [];
+requireLogin();
+requireRole("Admin");
+
+// ==========================================
+// Load Users
+// ==========================================
+
+window.onload = () => {
+
+    loadUsers();
+
+};
 
 // ==========================================
 // Load Users
@@ -12,102 +23,179 @@ async function loadUsers() {
 
     try {
 
-        users = await apiGet("users");
+        const users =
+            await apiGet("users");
 
-        renderUsers();
+        const table =
+            document.getElementById("usersTable");
+
+        table.innerHTML = "";
+
+        if (users.length === 0) {
+
+            table.innerHTML = `
+
+                <tr>
+
+                    <td colspan="5"
+                        style="text-align:center;">
+
+                        No Users Available
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+        users.forEach(user => {
+
+            table.innerHTML += `
+
+                <tr>
+
+                    <td>${user.id}</td>
+
+                    <td>${user.name}</td>
+
+                    <td>${user.email}</td>
+
+                    <td>${user.role}</td>
+
+                    <td>${user.status}</td>
+
+                </tr>
+
+            `;
+
+        });
 
     }
 
     catch (error) {
 
+        alert("Unable to Load Users");
+
         console.error(error);
-
-        document.getElementById("usersTable").innerHTML = `
-
-<tr>
-
-<td colspan="5" style="text-align:center;">
-
-No Users Found
-
-</td>
-
-</tr>
-
-`;
 
     }
 
 }
 
 // ==========================================
-// Render Users
+// Open Modal
 // ==========================================
 
-function renderUsers() {
+function openModal() {
 
-    const tbody =
-        document.getElementById("usersTable");
+    document
+        .getElementById("userModal")
+        .style.display = "flex";
 
-    tbody.innerHTML = "";
+}
 
-    if (users.length === 0) {
+// ==========================================
+// Close Modal
+// ==========================================
 
-        tbody.innerHTML = `
+function closeModal() {
 
-<tr>
+    document
+        .getElementById("userModal")
+        .style.display = "none";
 
-<td colspan="5" style="text-align:center;">
+}
 
-No Users Available
+// ==========================================
+// Add User
+// ==========================================
 
-</td>
+async function addUser() {
 
-</tr>
+    const name =
+        document
+        .getElementById("name")
+        .value
+        .trim();
 
-`;
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim();
+
+    const role =
+        document
+        .getElementById("role")
+        .value;
+
+    const status =
+        document
+        .getElementById("status")
+        .value;
+
+    if (!name || !email) {
+
+        alert("Please fill all fields.");
 
         return;
 
     }
 
-    users.forEach(user => {
+    try {
 
-        const css =
-            user.status === "Active"
-                ? "completed"
-                : "pending";
+        const response =
+            await apiPost("users", {
 
-        tbody.innerHTML += `
+                name,
 
-<tr>
+                email,
 
-<td>${user.id}</td>
+                role,
 
-<td>${user.name}</td>
+                status
 
-<td>${user.email}</td>
+            });
 
-<td>${user.role}</td>
+        alert(
 
-<td>
+            response.message +
+            "\n\nTemporary Password : Welcome@123"
 
-<span class="${css}">
+        );
 
-${user.status}
+        closeModal();
 
-</span>
+        document
+            .getElementById("name")
+            .value = "";
 
-</td>
+        document
+            .getElementById("email")
+            .value = "";
 
-</tr>
+        document
+            .getElementById("role")
+            .selectedIndex = 2;
 
-`;
+        document
+            .getElementById("status")
+            .selectedIndex = 0;
 
-    });
+        loadUsers();
+
+    }
+
+    catch (error) {
+
+        alert("Unable to Create User");
+
+        console.error(error);
+
+    }
 
 }
-
-// ==========================================
-
-loadUsers();
