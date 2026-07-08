@@ -11,8 +11,11 @@ const USER_KEY = "inventory_user";
 function saveUser(user) {
 
     localStorage.setItem(
+
         USER_KEY,
+
         JSON.stringify(user)
+
     );
 
 }
@@ -23,7 +26,8 @@ function saveUser(user) {
 
 function getUser() {
 
-    const user = localStorage.getItem(USER_KEY);
+    const user =
+        localStorage.getItem(USER_KEY);
 
     if (!user) {
 
@@ -43,7 +47,7 @@ function logout() {
 
     localStorage.removeItem(USER_KEY);
 
-    window.location.href = "index.html";
+    window.location.replace("index.html");
 
 }
 
@@ -53,11 +57,30 @@ function logout() {
 
 function requireLogin() {
 
-    const user = getUser();
+    const page =
+
+        window.location.pathname
+            .split("/")
+            .pop();
+
+    if (
+
+        page === "index.html" ||
+
+        page === ""
+
+    ) {
+
+        return;
+
+    }
+
+    const user =
+        getUser();
 
     if (!user) {
 
-        window.location.href = "index.html";
+        window.location.replace("index.html");
 
     }
 
@@ -69,7 +92,8 @@ function requireLogin() {
 
 function hasRole(...roles) {
 
-    const user = getUser();
+    const user =
+        getUser();
 
     if (!user) {
 
@@ -91,8 +115,106 @@ function requireRole(...roles) {
 
         alert("Access Denied");
 
-        window.location.href = "dashboard.html";
+        window.location.href =
+            "dashboard.html";
 
     }
 
 }
+
+// ===============================
+// Render Logged User
+// ===============================
+
+function renderUserHeader() {
+
+    const user =
+        getUser();
+
+    if (!user) {
+
+        return;
+
+    }
+
+    const topbar =
+
+        document.querySelector(".topbar");
+
+    if (!topbar) {
+
+        return;
+
+    }
+
+    if (
+
+        document.getElementById("headerRight")
+
+    ) {
+
+        return;
+
+    }
+
+    const right =
+
+        document.createElement("div");
+
+    right.id = "headerRight";
+
+    right.className = "header-right";
+
+    right.innerHTML = `
+
+<div class="user-info">
+
+<div class="user-name">
+
+<i class="fa-solid fa-user"></i>
+
+${user.name}
+
+</div>
+
+<div class="user-role">
+
+${user.role}
+
+</div>
+
+</div>
+
+<button
+
+class="logout-btn"
+
+onclick="logout()">
+
+Logout
+
+</button>
+
+`;
+
+    topbar.appendChild(right);
+
+}
+
+// ===============================
+// Initialize
+// ===============================
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    function () {
+
+        requireLogin();
+
+        renderUserHeader();
+
+    }
+
+);

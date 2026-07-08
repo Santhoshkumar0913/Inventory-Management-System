@@ -23,6 +23,8 @@
 
 <div class="container">
 
+    <!-- Sidebar -->
+
     <aside class="sidebar">
 
         <div class="logo">
@@ -87,27 +89,38 @@
 
     </aside>
 
+    <!-- Main -->
+
     <main class="main">
 
         <header class="topbar">
 
-            <h2>Inventory Management</h2>
+            <div class="header-left">
 
-            <button
-                id="addProductBtn"
-                class="btn btn-primary"
-                onclick="openProductModal()">
+                <h2>Inventory Management</h2>
 
-                <i class="fa-solid fa-plus"></i>
+                <button
+                    id="addProductBtn"
+                    class="btn btn-primary"
+                    onclick="openProductModal()">
 
-                Add Product
+                    <i class="fa-solid fa-plus"></i>
 
-            </button>
+                    Add Product
+
+                </button>
+
+            </div>
 
         </header>
 
+        <!-- Search -->
+
         <div
-            style="padding:25px;display:flex;gap:15px;">
+            style="
+            padding:25px;
+            display:flex;
+            gap:15px;">
 
             <input
 
@@ -120,6 +133,8 @@
                 onkeyup="searchProducts()">
 
         </div>
+
+        <!-- Products -->
 
         <section class="orders">
 
@@ -158,11 +173,11 @@
     </main>
 
 </div>
-
 <!-- ======================================== -->
 <!-- Product Modal -->
 <!-- ======================================== -->
- <div
+
+<div
     id="productModal"
     class="modal">
 
@@ -186,8 +201,7 @@
 
         </div>
 
-        <form
-            id="productForm">
+        <form id="productForm">
 
             <input
                 id="productId"
@@ -228,7 +242,10 @@
                 required>
 
             <div
-                style="display:flex;gap:10px;margin-top:20px;">
+                style="
+                display:flex;
+                gap:10px;
+                margin-top:20px;">
 
                 <button
                     type="button"
