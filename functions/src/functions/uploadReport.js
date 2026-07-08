@@ -67,27 +67,23 @@ app.http("uploadReport", {
                 .query(query)
                 .fetchAll();
 
+            // =====================================
+            // Generate CSV
+            // =====================================
+
             let csv =
-
-`Product ID,Name,Category,Price,Stock,Minimum Stock,Supplier
-
-`;
+                "Product ID,Name,Category,Price,Stock,Minimum Stock,Supplier\n";
 
             products.forEach(product => {
 
                 csv +=
-
-`${product.id},
-${product.name},
-${product.category},
-${product.price},
-${product.stock},
-${product.minimumStock},
-${product.supplier}
-
-`;
+`${product.id},${product.name},${product.category},${product.price},${product.stock},${product.minimumStock},${product.supplier}\n`;
 
             });
+
+            // =====================================
+            // Upload to Blob Storage
+            // =====================================
 
             const blobServiceClient =
 
@@ -122,7 +118,8 @@ ${product.supplier}
                         fileName
 
                     );
-                                await blobClient.upload(
+
+            await blobClient.upload(
 
                 csv,
 

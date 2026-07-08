@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+
+  "contentVersion": "1.0.0.0",
+
+  "parameters": {
+
+    "storageAccountName": {
+
+      "value": "inventorymsstorage"
+
+    },
+
+    "cosmosDbAccountName": {
+
+      "value": "inventorydbsk2026"
+
+    },
+
+    "functionAppName": {
+
+      "value": "inventoryms-api"
+
+    },
+
+    "webAppName": {
+
+      "value": "inventoryms-web"
+
+    },
+
+    "appServicePlanName": {
+
+      "value": "ASP-InventoryManagementRG-b309"
+
+    },
+
+    "location": {
+
+      "value": "Central India"
+
+    }
+
+  }
+
+}
