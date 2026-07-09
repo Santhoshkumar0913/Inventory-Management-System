@@ -243,3 +243,23 @@ FILE : responsive.css
     }
 
 }
+
+@media screen and (max-width:768px){
+
+    #inventoryChart{
+
+        height:300px !important;
+
+    }
+
+}
+
+@media screen and (max-width:480px){
+
+    #inventoryChart{
+
+        height:250px !important;
+
+    }
+
+}
