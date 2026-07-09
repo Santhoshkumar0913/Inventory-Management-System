@@ -296,6 +296,14 @@ Status Badges
 
 }
 
+.user-disabled {
+
+    background: #dc2626;
+
+    color: white;
+
+}
+
 .pending {
 
     display: inline-block;
