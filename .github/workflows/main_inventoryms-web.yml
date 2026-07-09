@@ -21,9 +21,10 @@ jobs:
       contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -31,13 +32,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
+      - name: Build
         run: npm run build --if-present
 
-      - name: Run tests
+      - name: Test
         run: npm test --if-present
 
-      - name: Upload artifact
+      - name: Upload Frontend Artifact
         uses: actions/upload-artifact@v4
         with:
           name: frontend-app
@@ -52,20 +53,20 @@ jobs:
       contents: read
 
     steps:
-      - name: Download artifact
+      - name: Download Frontend Artifact
         uses: actions/download-artifact@v4
         with:
           name: frontend-app
           path: ./frontend
 
-      - name: Login to Azure
+      - name: Azure Login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_290F19B59BB7408BBF3E66F83AA382A7 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_19B56D92799E4FD09DF9DA153C9F1C34 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E54DC0E8436A4E469BBE537EAE2E6FDD }}
 
-      - name: Deploy to Azure Web App
+      - name: Deploy Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: inventoryms-web

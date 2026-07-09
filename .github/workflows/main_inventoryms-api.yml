@@ -25,7 +25,7 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -42,7 +42,7 @@ jobs:
       - name: Test
         run: npm test --if-present
 
-      - name: Upload artifact
+      - name: Upload Function Artifact
         uses: actions/upload-artifact@v4
         with:
           name: function-app
@@ -57,13 +57,13 @@ jobs:
       contents: read
 
     steps:
-      - name: Download artifact
+      - name: Download Function Artifact
         uses: actions/download-artifact@v4
         with:
           name: function-app
           path: ./functions
 
-      - name: Login to Azure
+      - name: Azure Login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_DCC1D3E711504D6C8A0A6C2F9513E81A }}
