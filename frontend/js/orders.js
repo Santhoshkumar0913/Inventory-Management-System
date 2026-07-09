@@ -129,7 +129,7 @@ No Orders Available
 
 <td>${order.quantity}</td>
 
-<td>$${order.total}</td>
+<td>₹${order.total}</td>
 
 <td>
 

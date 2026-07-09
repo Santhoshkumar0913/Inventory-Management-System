@@ -52,7 +52,7 @@ function updateCards() {
         dashboard.totalReturns;
 
     document.getElementById("inventoryValue").innerText =
-        "$" +
+        "₹" +
         dashboard.inventoryValue.toLocaleString();
 
     document.getElementById("forecast").innerText =
