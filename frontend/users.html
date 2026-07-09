@@ -10,9 +10,7 @@
     <title>Users</title>
 
     <link rel="stylesheet" href="css/style.css">
-
     <link rel="stylesheet" href="css/dashboard.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="css/responsive.css">
 
@@ -34,17 +32,19 @@
             justify-content: center;
             align-items: center;
 
+            z-index: 999;
+
         }
 
         .modal-content {
 
-            background: white;
+            background: #fff;
 
             width: 420px;
 
             padding: 25px;
 
-            border-radius: 10px;
+            border-radius: 12px;
 
         }
 
@@ -59,7 +59,7 @@
 
             width: 100%;
 
-            padding: 10px;
+            padding: 12px;
 
             margin-bottom: 15px;
 
@@ -184,6 +184,8 @@
 
                             <th>Status</th>
 
+                            <th>Action</th>
+
                         </tr>
 
                     </thead>
@@ -195,11 +197,14 @@
                 </table>
 
             </section>
+
         </main>
 
     </div>
 
-    <!-- ========================= -->
+    <!-- ===================================== -->
+    <!-- Add User Modal -->
+    <!-- ===================================== -->
 
     <div class="modal" id="userModal">
 
@@ -213,39 +218,19 @@
 
             <select id="role">
 
-                <option value="Admin">
+                <option value="Admin">Admin</option>
 
-                    Admin
+                <option value="Manager">Manager</option>
 
-                </option>
-
-                <option value="Manager">
-
-                    Manager
-
-                </option>
-
-                <option value="Staff">
-
-                    Staff
-
-                </option>
+                <option value="Staff">Staff</option>
 
             </select>
 
             <select id="status">
 
-                <option value="Active">
+                <option value="Active">Active</option>
 
-                    Active
-
-                </option>
-
-                <option value="Disabled">
-
-                    Disabled
-
-                </option>
+                <option value="Disabled">Disabled</option>
 
             </select>
 
@@ -268,6 +253,60 @@
                 <button class="btn btn-primary" onclick="addUser()">
 
                     Create User
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Edit User Status Modal -->
+    <!-- ===================================== -->
+
+    <div class="modal" id="editStatusModal">
+
+        <div class="modal-content">
+
+            <h3>Edit User Status</h3>
+
+            <input type="hidden" id="editUserId">
+
+            <label>
+
+                <b>Status</b>
+
+            </label>
+
+            <select id="editStatus">
+
+                <option value="Active">
+
+                    Active
+
+                </option>
+
+                <option value="Disabled">
+
+                    Disabled
+
+                </option>
+
+            </select>
+
+            <div class="modal-buttons">
+
+                <button class="btn" onclick="closeEditModal()">
+
+                    Cancel
+
+                </button>
+
+                <button class="btn btn-primary" onclick="updateUserStatus()">
+
+                    Save Changes
 
                 </button>
 

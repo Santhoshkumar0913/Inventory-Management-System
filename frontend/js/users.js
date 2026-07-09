@@ -6,7 +6,7 @@ requireLogin();
 requireRole("Admin");
 
 // ==========================================
-// Load Users
+// Page Load
 // ==========================================
 
 window.onload = () => {
@@ -35,17 +35,18 @@ async function loadUsers() {
 
             table.innerHTML = `
 
-<tr>
+            <tr>
 
-<td colspan="5" style="text-align:center;">
+                <td colspan="6"
+                    style="text-align:center;">
 
-No Users Available
+                    No Users Available
 
-</td>
+                </td>
 
-</tr>
+            </tr>
 
-`;
+            `;
 
             return;
 
@@ -53,13 +54,13 @@ No Users Available
 
         users.forEach(user => {
 
-            const statusClass =
+            const badge =
 
                 user.status === "Active"
 
-                    ? "active-status"
+                ? "completed"
 
-                    : "disabled-status";
+                : "cancelled";
 
             table.innerHTML += `
 
@@ -75,11 +76,31 @@ No Users Available
 
 <td>
 
-<span class="${statusClass}">
+<span class="${badge}">
 
 ${user.status}
 
 </span>
+
+</td>
+
+<td>
+
+<button
+
+class="btn btn-primary"
+
+onclick="openEditModal(
+
+'${user.id}',
+
+'${user.status}'
+
+)">
+
+Edit
+
+</button>
 
 </td>
 
@@ -93,16 +114,16 @@ ${user.status}
 
     catch (error) {
 
-        alert("Unable to Load Users");
-
         console.error(error);
+
+        alert("Unable to Load Users");
 
     }
 
 }
 
 // ==========================================
-// Open Modal
+// Add User Modal
 // ==========================================
 
 function openModal() {
@@ -113,15 +134,79 @@ function openModal() {
 
 }
 
-// ==========================================
-// Close Modal
-// ==========================================
-
 function closeModal() {
 
     document
         .getElementById("userModal")
         .style.display = "none";
+
+}
+
+// ==========================================
+// Edit Status Modal
+// ==========================================
+
+function openEditModal(id, status) {
+
+    document.getElementById("editUserId").value =
+        id;
+
+    document.getElementById("editStatus").value =
+        status;
+
+    document.getElementById("editStatusModal")
+        .style.display = "flex";
+
+}
+
+function closeEditModal() {
+
+    document.getElementById("editStatusModal")
+        .style.display = "none";
+
+}
+
+// ==========================================
+// Update User Status
+// ==========================================
+
+async function updateUserStatus() {
+
+    try {
+
+        const id =
+            document.getElementById("editUserId").value;
+
+        const status =
+            document.getElementById("editStatus").value;
+
+        await apiPut(
+
+            "users/" + id,
+
+            {
+
+                status
+
+            }
+
+        );
+
+        alert("User status updated successfully.");
+
+        closeEditModal();
+
+        loadUsers();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
 
 }
 
@@ -132,26 +217,20 @@ function closeModal() {
 async function addUser() {
 
     const name =
-        document
-            .getElementById("name")
-            .value
-            .trim();
+        document.getElementById("name")
+        .value.trim();
 
     const email =
-        document
-            .getElementById("email")
-            .value
-            .trim();
+        document.getElementById("email")
+        .value.trim();
 
     const role =
-        document
-            .getElementById("role")
-            .value;
+        document.getElementById("role")
+        .value;
 
     const status =
-        document
-            .getElementById("status")
-            .value;
+        document.getElementById("status")
+        .value;
 
     if (!name || !email) {
 
@@ -164,17 +243,24 @@ async function addUser() {
     try {
 
         const response =
-            await apiPost("users", {
 
-                name,
+            await apiPost(
 
-                email,
+                "users",
 
-                role,
+                {
 
-                status
+                    name,
 
-            });
+                    email,
+
+                    role,
+
+                    status
+
+                }
+
+            );
 
         alert(
 
@@ -186,21 +272,11 @@ async function addUser() {
 
         closeModal();
 
-        document
-            .getElementById("name")
-            .value = "";
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
 
-        document
-            .getElementById("email")
-            .value = "";
-
-        document
-            .getElementById("role")
-            .selectedIndex = 2;
-
-        document
-            .getElementById("status")
-            .selectedIndex = 0;
+        document.getElementById("role").selectedIndex = 2;
+        document.getElementById("status").selectedIndex = 0;
 
         loadUsers();
 
@@ -208,9 +284,15 @@ async function addUser() {
 
     catch (error) {
 
-        alert("Unable to Create User");
-
         console.error(error);
+
+        alert(
+
+            error.message ||
+
+            "Unable to Create User"
+
+        );
 
     }
 
