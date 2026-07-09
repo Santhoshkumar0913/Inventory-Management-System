@@ -305,9 +305,23 @@ function renderInventoryChart() {
 
                     data: values,
 
-                    backgroundColor: labels.map(() => "#2563eb"),
+                    backgroundColor:
+                        labels.map((_, index) => [
 
-                    borderRadius: 8,
+                            "#2563eb",
+                            "#16a34a",
+                            "#f59e0b",
+                            "#dc2626",
+                            "#7c3aed",
+                            "#0f766e",
+                            "#ea580c"
+
+                        ][index % 7]),
+
+                    borderRadius: 10,
+                    barPercentage: 0.6,
+
+                    categoryPercentage: 0.7,
 
                     borderWidth: 1
 
@@ -323,6 +337,14 @@ function renderInventoryChart() {
 
             maintainAspectRatio: true,
 
+            animation: {
+
+                duration: 1200,
+
+                easing: "easeOutQuart"
+
+            },
+
             plugins: {
 
                 legend: {
@@ -333,7 +355,15 @@ function renderInventoryChart() {
 
                 title: {
 
-                    display: false
+                    display: true,
+
+                    text: "Current Inventory Distribution",
+
+                    font: {
+
+                        size: 18
+
+                    }
 
                 }
 
@@ -344,6 +374,12 @@ function renderInventoryChart() {
                 y: {
 
                     beginAtZero: true,
+
+                    grid: {
+
+                        color: "#ececec"
+
+                    },
 
                     title: {
 
@@ -356,6 +392,12 @@ function renderInventoryChart() {
                 },
 
                 x: {
+
+                    grid: {
+
+                        display: false
+
+                    },
 
                     title: {
 
