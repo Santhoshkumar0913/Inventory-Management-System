@@ -4,6 +4,8 @@
 
 let dashboard = {};
 
+let inventoryChart = null;
+
 // ==========================================
 // Load Dashboard
 // ==========================================
@@ -12,12 +14,13 @@ async function loadDashboard() {
 
     try {
 
-        dashboard =
-            await apiGet("dashboard");
+        dashboard = await apiGet("dashboard");
 
         updateCards();
 
         renderRecentProducts();
+
+        renderInventoryChart();
 
         renderReorderAlerts();
 
@@ -257,6 +260,118 @@ async function reorderProduct(productId) {
         );
 
     }
+
+}
+// ==========================================
+// Inventory Trend Chart
+// ==========================================
+
+function renderInventoryChart() {
+
+    const canvas =
+        document.getElementById("inventoryChart");
+
+    if (!canvas)
+        return;
+
+    if (inventoryChart) {
+
+        inventoryChart.destroy();
+
+    }
+
+    const trend =
+        dashboard.inventoryTrend || [];
+
+    const labels =
+        trend.map(item => item.category);
+
+    const values =
+        trend.map(item => item.stock);
+
+    inventoryChart = new Chart(canvas, {
+
+        type: "bar",
+
+        data: {
+
+            labels,
+
+            datasets: [
+
+                {
+
+                    label: "Available Stock",
+
+                    data: values,
+
+                    backgroundColor: labels.map(() => "#2563eb"),
+
+                    borderRadius: 8,
+
+                    borderWidth: 1
+
+                }
+
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: true,
+
+            plugins: {
+
+                legend: {
+
+                    display: false
+
+                },
+
+                title: {
+
+                    display: false
+
+                }
+
+            },
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true,
+
+                    title: {
+
+                        display: true,
+
+                        text: "Stock Quantity"
+
+                    }
+
+                },
+
+                x: {
+
+                    title: {
+
+                        display: true,
+
+                        text: "Product Category"
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    });
 
 }
 

@@ -120,9 +120,9 @@ app.http("dashboard", {
 
                     : totalOrders > 10
 
-                    ? "Medium Demand"
+                        ? "Medium Demand"
 
-                    : "Low Demand";
+                        : "Low Demand";
 
             const reorderProducts =
 
@@ -131,6 +131,32 @@ app.http("dashboard", {
                     p => p.stock <= p.minimumStock
 
                 );
+            // ===================================
+            // Inventory Trend by Category
+            // ===================================
+
+            const categoryMap = {};
+
+            products.forEach(product => {
+
+                if (!categoryMap[product.category]) {
+
+                    categoryMap[product.category] = 0;
+
+                }
+
+                categoryMap[product.category] += product.stock;
+
+            });
+
+            const inventoryTrend = Object.keys(categoryMap).map(category => ({
+
+                category,
+
+                stock: categoryMap[category]
+
+            }));
+
 
             return {
 
@@ -152,8 +178,9 @@ app.http("dashboard", {
 
                     reorderProducts,
 
-                    recentProducts:
+                    inventoryTrend,
 
+                    recentProducts:
                         products.slice(0, 5)
 
                 }
