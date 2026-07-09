@@ -8,10 +8,13 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
 
-    <title>Inventory Login</title>
+    <title>Azure Inventory</title>
 
     <link rel="stylesheet"
         href="css/style.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
     <style>
 
@@ -23,31 +26,91 @@
 
             align-items:center;
 
-            height:100vh;
+            min-height:100vh;
 
             background:#2563eb;
+
+            padding:20px;
 
         }
 
         .login{
 
-            background:white;
+            background:#fff;
 
-            padding:40px;
+            width:430px;
 
-            border-radius:10px;
+            padding:45px;
 
-            width:350px;
+            border-radius:18px;
 
-            box-shadow:0 10px 20px rgba(0,0,0,.2);
-
-        }
-
-        h2{
+            box-shadow:0 18px 45px rgba(0,0,0,.18);
 
             text-align:center;
 
-            margin-bottom:25px;
+        }
+
+        .logo{
+
+            width:75px;
+
+            height:75px;
+
+            margin:0 auto 20px;
+
+            border-radius:50%;
+
+            background:#e8f0ff;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+        }
+
+        .logo i{
+
+            font-size:34px;
+
+            color:#2563eb;
+
+        }
+
+        .app-title{
+
+            font-size:34px;
+
+            font-weight:700;
+
+            color:#2563eb;
+
+            margin-bottom:8px;
+
+        }
+
+        .welcome{
+
+            font-size:26px;
+
+            font-weight:600;
+
+            color:#1f2937;
+
+            margin-bottom:10px;
+
+        }
+
+        .subtitle{
+
+            color:#6b7280;
+
+            font-size:15px;
+
+            line-height:1.6;
+
+            margin-bottom:35px;
 
         }
 
@@ -55,11 +118,21 @@
 
             width:100%;
 
-            padding:12px;
+            padding:14px;
 
-            margin-bottom:15px;
+            margin-bottom:18px;
 
-            box-sizing:border-box;
+            border:1px solid #d1d5db;
+
+            border-radius:8px;
+
+            font-size:15px;
+
+        }
+
+        input:focus{
+
+            border-color:#2563eb;
 
         }
 
@@ -67,17 +140,37 @@
 
             width:100%;
 
+            padding:14px;
+
             background:#2563eb;
 
-            color:white;
-
-            padding:12px;
+            color:#fff;
 
             border:none;
 
-            cursor:pointer;
+            border-radius:8px;
 
-            border-radius:5px;
+            font-size:16px;
+
+            font-weight:600;
+
+            transition:.3s;
+
+        }
+
+        button:hover{
+
+            background:#1d4ed8;
+
+        }
+
+        .footer{
+
+            margin-top:28px;
+
+            font-size:13px;
+
+            color:#9ca3af;
 
         }
 
@@ -89,16 +182,44 @@
 
 <div class="login">
 
-    <h2>Inventory Login</h2>
+    <div class="logo">
+
+        <i class="fa-solid fa-boxes-stacked"></i>
+
+    </div>
+
+    <div class="app-title">
+
+        Azure Inventory
+
+    </div>
+
+    <div class="welcome">
+
+        Welcome Back!
+
+    </div>
+
+    <div class="subtitle">
+
+        Sign in to access the Inventory Management System.
+
+    </div>
 
     <input
+
         type="email"
-        placeholder="Email"
+
+        placeholder="Email Address"
+
         id="username">
 
     <input
+
         type="password"
+
         placeholder="Password"
+
         id="password">
 
     <button onclick="login()">
@@ -106,6 +227,12 @@
         Login
 
     </button>
+
+    <div class="footer">
+
+        Azure Inventory Management System
+
+    </div>
 
 </div>
 
