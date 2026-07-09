@@ -55,12 +55,9 @@ async function loadUsers() {
         users.forEach(user => {
 
             const badge =
-
                 user.status === "Active"
-
                 ? "completed"
-
-                : "cancelled";
+                : "completed user-disabled";
 
             table.innerHTML += `
 

@@ -183,6 +183,12 @@ table tbody tr:hover{
 
 }
 
+.user-disabled{
+
+    background:var(--danger);
+
+}
+
 .pending{
 
     background:var(--warning);

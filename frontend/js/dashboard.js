@@ -335,7 +335,7 @@ function renderInventoryChart() {
 
             responsive: true,
 
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
 
             animation: {
 
@@ -359,9 +359,21 @@ function renderInventoryChart() {
 
                     text: "Current Inventory Distribution",
 
+                    color: "#111827",
+
                     font: {
 
-                        size: 18
+                        size: 20,
+
+                        weight: "bold"
+
+                    },
+
+                    padding: {
+
+                        top: 10,
+
+                        bottom: 20
 
                     }
 
@@ -385,7 +397,17 @@ function renderInventoryChart() {
 
                         display: true,
 
-                        text: "Stock Quantity"
+                        text: "Stock Quantity",
+
+                        color: "#374151",
+
+                        font: {
+
+                            size: 16,
+
+                            weight: "bold"
+
+                        }
 
                     }
 
@@ -403,7 +425,17 @@ function renderInventoryChart() {
 
                         display: true,
 
-                        text: "Product Category"
+                        text: "Product Category",
+
+                        color: "#374151",
+
+                        font: {
+
+                            size: 16,
+
+                            weight: "bold"
+
+                        }
 
                     }
 
