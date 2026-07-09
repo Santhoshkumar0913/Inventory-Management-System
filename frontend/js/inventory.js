@@ -128,7 +128,7 @@ Delete
 
 <td>${product.category}</td>
 
-<td>₹${product.price}</td>
+<td>₹${product.price.toLocaleString('en-IN')}</td>
 
 <td>${product.stock}</td>
 

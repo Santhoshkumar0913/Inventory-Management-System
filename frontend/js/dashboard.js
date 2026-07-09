@@ -53,7 +53,7 @@ function updateCards() {
 
     document.getElementById("inventoryValue").innerText =
         "₹" +
-        dashboard.inventoryValue.toLocaleString();
+        dashboard.inventoryValue.toLocaleString('en-IN');
 
     document.getElementById("forecast").innerText =
         dashboard.demandForecast;
