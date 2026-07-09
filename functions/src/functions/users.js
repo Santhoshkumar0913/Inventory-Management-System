@@ -247,8 +247,7 @@ app.http("users", {
 
                             success: false,
 
-                            message:
-                                "User ID required."
+                            message: "User ID required."
 
                         }
 
@@ -259,15 +258,50 @@ app.http("users", {
                 const body =
                     await request.json();
 
+                // --------------------------------------
+                // Find User by ID
+                // --------------------------------------
+
+                const userQuery = {
+
+                    query: `
+            SELECT *
+            FROM c
+            WHERE c.documentType = @type
+            AND c.id = @id
+        `,
+
+                    parameters: [
+
+                        {
+
+                            name: "@type",
+
+                            value: "User"
+
+                        },
+
+                        {
+
+                            name: "@id",
+
+                            value: id
+
+                        }
+
+                    ]
+
+                };
+
                 const {
 
-                    resource: user
+                    resources
 
-                } = await container
-                    .item(id, id)
-                    .read();
+                } = await container.items
+                    .query(userQuery)
+                    .fetchAll();
 
-                if (!user) {
+                if (resources.length === 0) {
 
                     return {
 
@@ -277,8 +311,7 @@ app.http("users", {
 
                             success: false,
 
-                            message:
-                                "User not found."
+                            message: "User not found."
 
                         }
 
@@ -286,12 +319,21 @@ app.http("users", {
 
                 }
 
+                const user =
+                    resources[0];
+
+                // --------------------------------------
+                // Update Status
+                // --------------------------------------
+
                 user.status =
                     body.status;
 
-                await container
-                    .item(id, id)
-                    .replace(user);
+                // --------------------------------------
+                // Save Back to Cosmos DB
+                // --------------------------------------
+
+                await container.items.upsert(user);
 
                 return {
 
@@ -301,8 +343,7 @@ app.http("users", {
 
                         success: true,
 
-                        message:
-                            "User status updated.",
+                        message: "User status updated successfully.",
 
                         user
 
