@@ -5,146 +5,137 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Reports</title>
 
-    <link rel="stylesheet"
-        href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
-    <link rel="stylesheet"
-        href="css/dashboard.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="css/responsive.css">
 
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <aside class="sidebar">
+        <aside class="sidebar">
 
-        <div class="logo">
+            <div class="logo">
 
-            <i class="fa-solid fa-boxes-stacked"></i>
+                <i class="fa-solid fa-boxes-stacked"></i>
 
-            <span>InventoryMS</span>
-
-        </div>
-
-        <ul>
-
-            <li onclick="location.href='dashboard.html'">
-
-                <i class="fa-solid fa-house"></i>
-
-                <span>Dashboard</span>
-
-            </li>
-
-            <li onclick="location.href='inventory.html'">
-
-                <i class="fa-solid fa-box"></i>
-
-                <span>Inventory</span>
-
-            </li>
-
-            <li onclick="location.href='orders.html'">
-
-                <i class="fa-solid fa-cart-shopping"></i>
-
-                <span>Orders</span>
-
-            </li>
-
-            <li onclick="location.href='returns.html'">
-
-                <i class="fa-solid fa-rotate-left"></i>
-
-                <span>Returns</span>
-
-            </li>
-
-            <li onclick="location.href='users.html'">
-
-                <i class="fa-solid fa-users"></i>
-
-                <span>Users</span>
-
-            </li>
-
-            <li class="active">
-
-                <i class="fa-solid fa-chart-column"></i>
-
-                <span>Reports</span>
-
-            </li>
-
-        </ul>
-
-    </aside>
-
-    <main class="main">
-
-        <header class="topbar">
-
-            <div class="header-left">
-
-                <h2>Inventory Reports</h2>
-
-                <button
-
-                    id="generateReportBtn"
-
-                    class="btn btn-primary"
-
-                    onclick="generateReport()">
-
-                    <i class="fa-solid fa-file-export"></i>
-
-                    Generate Report
-
-                </button>
+                <span>InventoryMS</span>
 
             </div>
 
-        </header>
+            <ul>
 
-        <br>
+                <li onclick="location.href='dashboard.html'">
 
-        <div class="card">
+                    <i class="fa-solid fa-house"></i>
 
-            <h3>Azure Blob Storage</h3>
+                    <span>Dashboard</span>
+
+                </li>
+
+                <li onclick="location.href='inventory.html'">
+
+                    <i class="fa-solid fa-box"></i>
+
+                    <span>Inventory</span>
+
+                </li>
+
+                <li onclick="location.href='orders.html'">
+
+                    <i class="fa-solid fa-cart-shopping"></i>
+
+                    <span>Orders</span>
+
+                </li>
+
+                <li onclick="location.href='returns.html'">
+
+                    <i class="fa-solid fa-rotate-left"></i>
+
+                    <span>Returns</span>
+
+                </li>
+
+                <li onclick="location.href='users.html'">
+
+                    <i class="fa-solid fa-users"></i>
+
+                    <span>Users</span>
+
+                </li>
+
+                <li class="active">
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                    <span>Reports</span>
+
+                </li>
+
+            </ul>
+
+        </aside>
+
+        <main class="main">
+
+            <header class="topbar">
+
+                <div class="header-left">
+
+                    <h2>Inventory Reports</h2>
+
+                    <button id="generateReportBtn" class="btn btn-primary" onclick="generateReport()">
+
+                        <i class="fa-solid fa-file-export"></i>
+
+                        Generate Report
+
+                    </button>
+
+                </div>
+
+            </header>
 
             <br>
 
-            <p>
+            <div class="card">
 
-                Click the button above to generate the latest inventory report.
+                <h3>Azure Blob Storage</h3>
 
-            </p>
+                <br>
 
-            <br>
+                <p>
 
-            <div id="reportStatus">
+                    Click the button above to generate the latest inventory report.
 
-                No report generated.
+                </p>
+
+                <br>
+
+                <div id="reportStatus">
+
+                    No report generated.
+
+                </div>
 
             </div>
+        </main>
 
-        </div>
-    </main>
+    </div>
 
-</div>
-
-<script src="js/api.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/reports.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/reports.js"></script>
 
 </body>
 

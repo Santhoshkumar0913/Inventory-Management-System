@@ -1,0 +1,245 @@
+/*=====================================================
+FILE : responsive.css
+======================================================*/
+
+/* Tablet */
+
+@media screen and (max-width:1024px){
+
+    .sidebar{
+
+        width:90px;
+
+    }
+
+    .sidebar span{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:90px;
+
+    }
+
+    .cards{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .header-left{
+
+        gap:12px;
+
+    }
+
+}
+
+/* Mobile */
+
+@media screen and (max-width:768px){
+
+    .container{
+
+        flex-direction:column;
+
+    }
+
+    .sidebar{
+
+        position:relative;
+
+        width:100%;
+
+        height:auto;
+
+    }
+
+    .sidebar ul{
+
+        display:flex;
+
+        overflow-x:auto;
+
+        white-space:nowrap;
+
+        padding:0;
+
+    }
+
+    .sidebar li{
+
+        min-width:120px;
+
+        justify-content:center;
+
+        padding:18px;
+
+    }
+
+    .sidebar span{
+
+        display:inline;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        height:auto;
+
+        padding:15px;
+
+        gap:15px;
+
+    }
+
+    .header-left{
+
+        width:100%;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:10px;
+
+    }
+
+    .header-right{
+
+        width:100%;
+
+        display:flex;
+
+        justify-content:space-between;
+
+        align-items:center;
+
+    }
+
+    .cards{
+
+        grid-template-columns:1fr;
+
+        padding:15px;
+
+    }
+
+    .orders{
+
+        margin:15px;
+
+        overflow-x:auto;
+
+    }
+
+    table{
+
+        min-width:800px;
+
+    }
+
+    .card{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:10px;
+
+    }
+
+    input,
+
+    select,
+
+    textarea{
+
+        width:100%;
+
+    }
+
+    .btn{
+
+        width:100%;
+
+    }
+
+    .modal-content{
+
+        width:95%;
+
+        margin:auto;
+
+    }
+
+}
+
+/* Small Mobile */
+
+@media screen and (max-width:480px){
+
+    h1{
+
+        font-size:24px;
+
+    }
+
+    h2{
+
+        font-size:20px;
+
+    }
+
+    h3{
+
+        font-size:18px;
+
+    }
+
+    .logo{
+
+        font-size:18px;
+
+    }
+
+    .user-name{
+
+        font-size:16px;
+
+    }
+
+    .user-role{
+
+        font-size:13px;
+
+    }
+
+    .logout-btn{
+
+        padding:8px 14px;
+
+    }
+
+    .orders{
+
+        padding:15px;
+
+    }
+
+}
