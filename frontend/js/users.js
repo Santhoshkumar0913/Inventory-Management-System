@@ -35,18 +35,17 @@ async function loadUsers() {
 
             table.innerHTML = `
 
-                <tr>
+<tr>
 
-                    <td colspan="5"
-                        style="text-align:center;">
+<td colspan="5" style="text-align:center;">
 
-                        No Users Available
+No Users Available
 
-                    </td>
+</td>
 
-                </tr>
+</tr>
 
-            `;
+`;
 
             return;
 
@@ -54,23 +53,39 @@ async function loadUsers() {
 
         users.forEach(user => {
 
+            const statusClass =
+
+                user.status === "Active"
+
+                    ? "active-status"
+
+                    : "disabled-status";
+
             table.innerHTML += `
 
-                <tr>
+<tr>
 
-                    <td>${user.id}</td>
+<td>${user.id}</td>
 
-                    <td>${user.name}</td>
+<td>${user.name}</td>
 
-                    <td>${user.email}</td>
+<td>${user.email}</td>
 
-                    <td>${user.role}</td>
+<td>${user.role}</td>
 
-                    <td>${user.status}</td>
+<td>
 
-                </tr>
+<span class="${statusClass}">
 
-            `;
+${user.status}
+
+</span>
+
+</td>
+
+</tr>
+
+`;
 
         });
 
@@ -118,25 +133,25 @@ async function addUser() {
 
     const name =
         document
-        .getElementById("name")
-        .value
-        .trim();
+            .getElementById("name")
+            .value
+            .trim();
 
     const email =
         document
-        .getElementById("email")
-        .value
-        .trim();
+            .getElementById("email")
+            .value
+            .trim();
 
     const role =
         document
-        .getElementById("role")
-        .value;
+            .getElementById("role")
+            .value;
 
     const status =
         document
-        .getElementById("status")
-        .value;
+            .getElementById("status")
+            .value;
 
     if (!name || !email) {
 
@@ -164,6 +179,7 @@ async function addUser() {
         alert(
 
             response.message +
+
             "\n\nTemporary Password : Welcome@123"
 
         );
