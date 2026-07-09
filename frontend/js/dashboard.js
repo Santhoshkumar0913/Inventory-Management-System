@@ -12,7 +12,8 @@ async function loadDashboard() {
 
     try {
 
-        dashboard = await apiGet("dashboard");
+        dashboard =
+            await apiGet("dashboard");
 
         updateCards();
 
@@ -33,7 +34,7 @@ async function loadDashboard() {
 }
 
 // ==========================================
-// Cards
+// Dashboard Cards
 // ==========================================
 
 function updateCards() {
@@ -50,11 +51,9 @@ function updateCards() {
     document.getElementById("totalReturns").innerText =
         dashboard.totalReturns;
 
-    const value =
-        dashboard.inventoryValue.toLocaleString();
-
     document.getElementById("inventoryValue").innerText =
-        "$" + value;
+        "$" +
+        dashboard.inventoryValue.toLocaleString();
 
     document.getElementById("forecast").innerText =
         dashboard.demandForecast;
@@ -74,15 +73,8 @@ function renderRecentProducts() {
 
     dashboard.recentProducts.forEach(product => {
 
-        const css =
-            product.stock <= product.minimumStock
-                ? "pending"
-                : "completed";
-
-        const status =
-            product.stock <= product.minimumStock
-                ? "Low Stock"
-                : "Available";
+        const lowStock =
+            product.stock <= product.minimumStock;
 
         tbody.innerHTML += `
 
@@ -98,9 +90,9 @@ function renderRecentProducts() {
 
 <td>
 
-<span class="${css}">
+<span class="${lowStock ? "pending" : "completed"}">
 
-${status}
+${lowStock ? "Low Stock" : "Available"}
 
 </span>
 
@@ -120,17 +112,80 @@ ${status}
 
 function renderReorderAlerts() {
 
-    const table =
+    const tbody =
         document.getElementById("reorderTable");
 
-    if (!table)
+    if (!tbody)
         return;
 
-    table.innerHTML = "";
+    tbody.innerHTML = "";
+
+    if (dashboard.reorderProducts.length === 0) {
+
+        tbody.innerHTML = `
+
+<tr>
+
+<td colspan="5">
+
+No Reorder Required
+
+</td>
+
+</tr>
+
+`;
+
+        return;
+
+    }
+
+    const user =
+        getUser();
 
     dashboard.reorderProducts.forEach(product => {
 
-        table.innerHTML += `
+        let action = "";
+
+        if (
+
+            user.role === "Admin" ||
+
+            user.role === "Manager"
+
+        ) {
+
+            action = `
+
+<button
+
+class="btn btn-primary"
+
+onclick="reorderProduct('${product.id}')">
+
+Reorder
+
+</button>
+
+`;
+
+        }
+
+        else {
+
+            action = `
+
+<span class="pending">
+
+Awaiting Manager
+
+</span>
+
+`;
+
+        }
+
+        tbody.innerHTML += `
 
 <tr>
 
@@ -144,11 +199,7 @@ function renderReorderAlerts() {
 
 <td>
 
-<span class="pending">
-
-Reorder Required
-
-</span>
+${action}
 
 </td>
 
@@ -157,6 +208,55 @@ Reorder Required
 `;
 
     });
+
+}
+
+// ==========================================
+// Manual Reorder
+// ==========================================
+
+async function reorderProduct(productId) {
+
+    try {
+
+        const user =
+            getUser();
+
+        await apiPost(
+
+            "reorderProduct/" + productId,
+
+            {
+
+                role: user.role
+
+            }
+
+        );
+
+        alert(
+
+            "Product reordered successfully."
+
+        );
+
+        await loadDashboard();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+
+            error.message ||
+
+            "Unable to reorder product."
+
+        );
+
+    }
 
 }
 

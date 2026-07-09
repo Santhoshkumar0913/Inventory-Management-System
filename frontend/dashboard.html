@@ -5,8 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Dashboard</title>
 
@@ -15,253 +14,244 @@
     <link rel="stylesheet" href="css/forms.css">
     <link rel="stylesheet" href="css/responsive.css">
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <!-- Sidebar -->
+        <aside class="sidebar">
 
-    <aside class="sidebar">
+            <div class="logo">
 
-        <div class="logo">
+                <i class="fa-solid fa-boxes-stacked"></i>
 
-            <i class="fa-solid fa-boxes-stacked"></i>
-
-            <span>InventoryMS</span>
-
-        </div>
-
-        <ul>
-
-            <li class="active">
-
-                <i class="fa-solid fa-house"></i>
-
-                <span>Dashboard</span>
-
-            </li>
-
-            <li onclick="location.href='inventory.html'">
-
-                <i class="fa-solid fa-box"></i>
-
-                <span>Inventory</span>
-
-            </li>
-
-            <li onclick="location.href='orders.html'">
-
-                <i class="fa-solid fa-cart-shopping"></i>
-
-                <span>Orders</span>
-
-            </li>
-
-            <li onclick="location.href='returns.html'">
-
-                <i class="fa-solid fa-rotate-left"></i>
-
-                <span>Returns</span>
-
-            </li>
-
-            <li onclick="location.href='users.html'">
-
-                <i class="fa-solid fa-users"></i>
-
-                <span>Users</span>
-
-            </li>
-
-            <li onclick="location.href='reports.html'">
-
-                <i class="fa-solid fa-chart-column"></i>
-
-                <span>Reports</span>
-
-            </li>
-
-        </ul>
-
-    </aside>
-
-    <!-- Main -->
-
-    <main class="main">
-
-        <!-- Topbar -->
-
-        <header class="topbar">
-
-            <div class="header-left">
-
-                <h2>Dashboard</h2>
+                <span>InventoryMS</span>
 
             </div>
 
-        </header>
+            <ul>
 
-        <!-- Dashboard Cards -->
+                <li class="active">
 
-        <section class="cards">
+                    <i class="fa-solid fa-house"></i>
 
-            <div class="card">
+                    <span>Dashboard</span>
 
-                <div>
+                </li>
 
-                    <h3>Total Products</h3>
+                <li onclick="location.href='inventory.html'">
 
-                    <h1 id="totalProducts">0</h1>
+                    <i class="fa-solid fa-box"></i>
+
+                    <span>Inventory</span>
+
+                </li>
+
+                <li onclick="location.href='orders.html'">
+
+                    <i class="fa-solid fa-cart-shopping"></i>
+
+                    <span>Orders</span>
+
+                </li>
+
+                <li onclick="location.href='returns.html'">
+
+                    <i class="fa-solid fa-rotate-left"></i>
+
+                    <span>Returns</span>
+
+                </li>
+
+                <li onclick="location.href='users.html'">
+
+                    <i class="fa-solid fa-users"></i>
+
+                    <span>Users</span>
+
+                </li>
+
+                <li onclick="location.href='reports.html'">
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                    <span>Reports</span>
+
+                </li>
+
+            </ul>
+
+        </aside>
+
+        <main class="main">
+
+            <header class="topbar">
+
+                <div class="header-left">
+
+                    <h2>Dashboard</h2>
 
                 </div>
 
-            </div>
+            </header>
 
-            <div class="card">
+            <section class="cards">
 
-                <div>
+                <div class="card">
 
-                    <h3>Total Orders</h3>
+                    <div>
 
-                    <h1 id="totalOrders">0</h1>
+                        <h3>Total Products</h3>
 
-                </div>
+                        <h1 id="totalProducts">0</h1>
 
-            </div>
-
-            <div class="card">
-
-                <div>
-
-                    <h3>Total Returns</h3>
-
-                    <h1 id="totalReturns">0</h1>
+                    </div>
 
                 </div>
 
-            </div>
+                <div class="card">
 
-            <div class="card">
+                    <div>
 
-                <div>
+                        <h3>Total Orders</h3>
 
-                    <h3>Low Stock</h3>
+                        <h1 id="totalOrders">0</h1>
 
-                    <h1 id="lowStock">0</h1>
-
-                </div>
-
-            </div>
-
-            <div class="card">
-
-                <div>
-
-                    <h3>Inventory Value</h3>
-
-                    <h1 id="inventoryValue">$0</h1>
+                    </div>
 
                 </div>
 
-            </div>
+                <div class="card">
 
-            <div class="card">
+                    <div>
 
-                <div>
+                        <h3>Total Returns</h3>
 
-                    <h3>Demand Forecast</h3>
+                        <h1 id="totalReturns">0</h1>
 
-                    <h1 id="forecast">-</h1>
+                    </div>
 
                 </div>
 
-            </div>
+                <div class="card">
 
-        </section>
+                    <div>
 
-        <br>
+                        <h3>Low Stock</h3>
 
-        <!-- Recent Products -->
+                        <h1 id="lowStock">0</h1>
 
-        <section class="orders">
+                    </div>
 
-            <h3 style="margin-bottom:20px;">
+                </div>
 
-                Recent Products
+                <div class="card">
 
-            </h3>
+                    <div>
 
-            <table>
+                        <h3>Inventory Value</h3>
 
-                <thead>
+                        <h1 id="inventoryValue">$0</h1>
 
-                    <tr>
+                    </div>
 
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Stock</th>
-                        <th>Status</th>
+                </div>
 
-                    </tr>
+                <div class="card">
 
-                </thead>
+                    <div>
 
-                <tbody id="dashboardTable">
+                        <h3>Demand Forecast</h3>
 
-                </tbody>
+                        <h1 id="forecast">-</h1>
 
-            </table>
+                    </div>
 
-        </section>
+                </div>
 
-        <br>
+            </section>
 
-        <!-- Reorder Alerts -->
+            <br>
 
-        <section class="orders">
+            <section class="orders">
 
-            <h3 style="margin-bottom:20px;">
+                <h3 style="margin-bottom:20px;">
 
-                Reorder Alerts
+                    Recent Products
 
-            </h3>
+                </h3>
 
-            <table>
+                <table>
 
-                <thead>
+                    <thead>
 
-                    <tr>
+                        <tr>
 
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Stock</th>
-                        <th>Minimum Stock</th>
-                        <th>Alert</th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Stock</th>
+                            <th>Status</th>
 
-                    </tr>
+                        </tr>
 
-                </thead>
+                    </thead>
 
-                <tbody id="reorderTable">
+                    <tbody id="dashboardTable">
 
-                </tbody>
+                    </tbody>
 
-            </table>
+                </table>
 
-        </section>
-    </main>
+            </section>
 
-</div>
+            <br>
 
-<script src="js/api.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/dashboard.js"></script>
+            <section class="orders">
+
+                <h3 style="margin-bottom:20px;">
+
+                    Reorder Alerts
+
+                </h3>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Name</th>
+
+                            <th>Stock</th>
+
+                            <th>Minimum Stock</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="reorderTable">
+
+                    </tbody>
+
+                </table>
+
+            </section>
+        </main>
+
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
 
 </body>
 
